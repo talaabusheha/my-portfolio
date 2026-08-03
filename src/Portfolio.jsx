@@ -513,47 +513,107 @@ Need a quick response?
 
   // Footer
   const Footer = () => (
-    <footer className="border-t border-cyan-500/10 bg-gradient-to-t from-slate-950 to-transparent py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="Tala" className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-lg"></img>
-              <div className="font-bold text-lg text-cyan-400">Tala</div>
-            </div>
-            <p className="text-gray-400 text-sm">
-
-Frontend developer passionate about building exceptional web applications</p>
+  <footer className="border-t border-cyan-500/10 bg-gradient-to-t from-slate-950 to-transparent py-16">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12 text-center md:text-left">
+        {/* Logo & Description */}
+        <div className="flex flex-col items-center md:items-start">
+          <div className="flex items-center gap-2 mb-4 justify-center md:justify-start">
+            <img 
+              src={logo} 
+              alt="Tala" 
+              className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-lg"
+            />
+            <div className="font-bold text-lg text-cyan-400">Tala</div>
           </div>
-          <div>
-            <h3 className="font-bold text-white mb-4"> Quick Links</h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#about" className="hover:text-cyan-400 transition-colors">About Me</a></li>
-              <li><a href="#projects" className="hover:text-cyan-400 transition-colors">My Projects</a></li>
-              <li><a href="#skills" className="hover:text-cyan-400 transition-colors">My Skills</a></li>
-              <li><a href="#contact" className="hover:text-cyan-400 transition-colors">Contact Me</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold text-white mb-4">Follow Me</h3>
-            <div className="flex gap-4">
-              <a href="https://www.linkedin.com/in/talaabusheha2832005/" className="text-blue-400 hover:text-gray-600  transition-colors text-2xl" target="_blank" rel="noopener noreferrer"><FaLinkedin/> </a>
-              <a href="https://github.com/talaabusheha" className=" text-slate-300 hover:text-gray-600  transition-colors text-2xl" target="_blank" rel="noopener noreferrer"><FaGithub/></a>
-              <a href="https://wa.me/970594828270" className="text-green-400 hover:text-gray-600 transition-colors text-2xl" target="_blank" rel="noopener noreferrer"><FaWhatsapp/></a>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-cyan-500/10 pt-8 text-center">
-          <p className="text-gray-500 text-sm">
-            © 2026 Tala Abu Sheha. All rights reserved 
-            <br />
-            <span className="text-xs">Built with React & Tailwind CSS </span>
+          <p className="text-gray-400 text-sm max-w-xs">
+            Frontend developer passionate about building exceptional web applications
           </p>
         </div>
+
+        {/* Quick Links */}
+        <div className="flex flex-col items-center md:items-start">
+          <h3 className="font-bold text-white mb-4">Quick Links</h3>
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>
+              <a 
+                href="#about" 
+                className="hover:text-cyan-400 transition-colors"
+              >
+                About Me
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#projects" 
+                className="hover:text-cyan-400 transition-colors"
+              >
+                My Projects
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#skills" 
+                className="hover:text-cyan-400 transition-colors"
+              >
+                My Skills
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#contact" 
+                className="hover:text-cyan-400 transition-colors"
+              >
+                Contact Me
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Follow Me */}
+        <div className="flex flex-col items-center md:items-start">
+          <h3 className="font-bold text-white mb-4">Follow Me</h3>
+          <div className="flex gap-4 justify-center md:justify-start">
+            <a 
+              href="https://www.linkedin.com/in/talaabusheha2832005/" 
+              className="text-blue-400 hover:text-blue-500 transition-colors text-2xl" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              in
+            </a>
+            <a 
+              href="https://github.com/talaabusheha" 
+              className="text-slate-300 hover:text-slate-200 transition-colors text-2xl" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              💻
+            </a>
+            <a 
+              href="https://wa.me/970594828270" 
+              className="text-green-400 hover:text-green-500 transition-colors text-2xl" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              💬
+            </a>
+          </div>
+        </div>
       </div>
-    </footer>
-  );
+
+      {/* Copyright */}
+      <div className="border-t border-cyan-500/10 pt-8 text-center">
+        <p className="text-gray-500 text-sm">
+          © 2026 Tala Abu Sheha. All rights reserved ✨
+          <br />
+          <span className="text-xs">Built with React & Tailwind CSS 🚀</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+);
+
 
   return (
     <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen overflow-x-hidden">
