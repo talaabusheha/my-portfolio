@@ -580,7 +580,7 @@ Need a quick response?
               target="_blank" 
               rel="noopener noreferrer"
             >
-              in
+              <FaLinkedin/>
             </a>
             <a 
               href="https://github.com/talaabusheha" 
@@ -588,7 +588,7 @@ Need a quick response?
               target="_blank" 
               rel="noopener noreferrer"
             >
-              💻
+              <FaGithub/>
             </a>
             <a 
               href="https://wa.me/970594828270" 
@@ -596,7 +596,7 @@ Need a quick response?
               target="_blank" 
               rel="noopener noreferrer"
             >
-              💬
+              <FaWhatsapp/>
             </a>
           </div>
         </div>
@@ -605,9 +605,9 @@ Need a quick response?
       {/* Copyright */}
       <div className="border-t border-cyan-500/10 pt-8 text-center">
         <p className="text-gray-500 text-sm">
-          © 2026 Tala Abu Sheha. All rights reserved ✨
+          © 2026 Tala Abu Sheha. All rights reserved 
           <br />
-          <span className="text-xs">Built with React & Tailwind CSS 🚀</span>
+          <span className="text-xs">Built with React & Tailwind CSS </span>
         </p>
       </div>
     </div>
