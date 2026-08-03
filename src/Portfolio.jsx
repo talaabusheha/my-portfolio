@@ -9,6 +9,11 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
+import { CiMenuFries } from "react-icons/ci";
+import { IoCloseSharp } from "react-icons/io5";
+
+
+
 
 
 
@@ -56,9 +61,10 @@ export default function Portfolio() {
 
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-cyan-400 hover:text-emerald-400 transition-colors"
+          className="md:hidden text-cyan-400 hover:text-emerald-400 transition-colors text-2xl"
         >
-          {isMenuOpen ? '✕' : '≡'}
+          {isMenuOpen ? <IoCloseSharp/> : <CiMenuFries />
+}
         </button>
       </div>
 

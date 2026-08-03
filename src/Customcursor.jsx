@@ -3,6 +3,19 @@ import React, { useState, useEffect } from 'react';
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    // تحقق إذا الـ device جوال أم desktop
+    const checkDeviceType = () => {
+      setIsDesktop(window.innerWidth > 768); // tablet وفوق = desktop
+    };
+
+    checkDeviceType();
+    window.addEventListener('resize', checkDeviceType);
+
+    return () => window.removeEventListener('resize', checkDeviceType);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -29,31 +42,47 @@ export default function CustomCursor() {
       setIsVisible(true);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    if (isDesktop) {
+      window.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseleave', handleMouseLeave);
+      document.addEventListener('mouseenter', handleMouseEnter);
+    }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, []);
+  }, [isDesktop]);
 
   useEffect(() => {
-    document.body.style.cursor = 'none';
+    if (isDesktop) {
+      document.body.style.cursor = 'none';
+    } else {
+      document.body.style.cursor = 'auto';
+    }
+    
     return () => {
       document.body.style.cursor = 'auto';
     };
-  }, []);
+  }, [isDesktop]);
 
-  if (!isVisible) return null;
+  // لا تظهر على الجوال
+  if (!isDesktop || !isVisible) return null;
 
   return (
     <>
       <style>{`
-        * {
-          cursor: none !important;
+        @media (max-width: 768px) {
+          * {
+            cursor: auto !important;
+          }
+        }
+
+        @media (min-width: 769px) {
+          * {
+            cursor: none !important;
+          }
         }
       `}</style>
 
