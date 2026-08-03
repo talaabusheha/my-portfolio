@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaGithub } from "react-icons/fa6";
-
+import todolist from '../public/todolist.webp'
+import PrayerTimesAPI from '../public/PrayerTimesAPI.png'
+import calculator from '../public/calculator.png'
 import logo from '../public/talalogo.jpeg'
 import { FaLinkedin } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
@@ -185,17 +187,17 @@ export default function Portfolio() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 py-6"> 
                 <div className="p-4 bg-cyan-500/10 border border-cyan-400/30 rounded-xl text-center hover:bg-cyan-500/20 transition-all"> 
-                  <div className="text-3xl font-bold text-cyan-400">50+</div> 
+                  <div className="text-3xl font-bold text-cyan-400">+20</div> 
                   <div className="text-xs text-gray-400 mt-2">Completed Projects</div> 
                 </div>
 
                 <div className="p-4 bg-emerald-500/10 border border-emerald-400/30 rounded-xl text-center hover:bg-emerald-500/20 transition-all"> 
-                  <div className="text-3xl font-bold text-emerald-400">30+</div> 
+                  <div className="text-3xl font-bold text-emerald-400">+10</div> 
                   <div className="text-xs text-gray-400 mt-2">Satisfied Clients</div> 
                 </div>
 
                 <div className="p-4 bg-purple-500/10 border border-purple-400/30 rounded-xl text-center hover:bg-purple-500/20 transition-all"> 
-                  <div className="text-3xl font-bold text-purple-400">3+</div> 
+                  <div className="text-3xl font-bold text-purple-400">+2</div> 
                   <div className="text-xs text-gray-400 mt-2">Years of Experience</div> 
                 </div>
               </div>
@@ -239,12 +241,15 @@ export default function Portfolio() {
   );
 
   // Projects Section
-  const ProjectCard = ({ icon, title, description, tags, link }) => (
+  const ProjectCard = ({ image, title, description, tags, link }) => (
     <div className="group bg-gradient-to-b from-slate-800/50 to-slate-900/50 border border-cyan-500/20 rounded-2xl overflow-hidden hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-4 hover:shadow-[0_30px_80px_rgba(34,211,238,0.15)] cursor-pointer">
-      <div className="w-full h-56 bg-gradient-to-br from-cyan-400/10 to-cyan-400/5 flex items-center justify-center text-7xl group-hover:scale-125 transition-transform duration-500 relative overflow-hidden">
-        {icon}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
+          <div className="w-full h-56 bg-gradient-to-br from-cyan-400/10 to-cyan-400/5 
+                  flex items-center justify-center rounded-2xl overflow-hidden">
+          <img 
+          src={image}  
+          className="w-full h-full object-cover"
+          />
+          </div>
       <div className="p-8 space-y-4">
         <h3 className="text-2xl font-bold text-cyan-400">{title}</h3>
         <p className="text-gray-400 text-base leading-relaxed">{description}</p>
@@ -262,7 +267,7 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-cyan-400 font-semibold mt-4 group/link"
           >
-            شوف المشروع →
+           Open project →
             <span className="group-hover/link:translate-x-1 transition-transform duration-300">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-4-6l6 6m0 0l-6 6m6-6H3" />
@@ -288,25 +293,27 @@ export default function Portfolio() {
 
         <div className="grid md:grid-cols-3 gap-10">
           <ProjectCard
-            icon="🛍️"
-            title="متجر إلكتروني عصري"
-            description="متجر تسوق متكامل مع سلة مشتريات، نظام دفع آمن Stripe، وتجربة مستخدم استثنائية"
-            tags={['React', 'Stripe', 'Tailwind', 'Node.js']}
-            link="https://example.com"
+            image={todolist}
+            title="To Do List App"
+            description="A comprehensive task management app with real-time synchronization,priority levels, and persistent local storage for efficient productivity."
+            tags={['HTML', 'JavaScript', 'CSS Tailwind']}
+            link=" https://talaabusheha.github.io/To-Do-List/"
           />
           <ProjectCard
-            icon="📊"
-            title="Dashboard تحليلي"
-            description="لوحة تحكم احترافية لعرض البيانات والإحصائيات بشكل تفاعلي مع charts متقدمة"
-            tags={['Vue.js', 'Chart.js', 'API', 'MongoDB']}
-            link="https://example.com"
+            image={PrayerTimesAPI}
+            title="Prayer Times"
+            description="Prayer times application that calculates accurate Islamic prayer 
+            schedules based on user location and region with real-time updates."
+            tags={['HTML','CSS', 'JavaScript', 'API']}
+            link="https://prayer-times-api-lime.vercel.app/"
           />
           <ProjectCard
-            icon="✍️"
-            title="منصة مدونة ذكية"
-            description="منصة تدوين حديثة مع نظام تعليقات، تقييمات، وتحسين محرك البحث SEO"
-            tags={['Next.js', 'MongoDB', 'SEO', 'Auth']}
-            link="https://example.com"
+            image={calculator}
+            title="simple calculator"
+            description="A simple yet powerful calculator app providing basic arithmetic operations 
+            with a clean interface and efficient calculation experience."
+            tags={['HTML', 'CSS', 'JavaScript']}
+            link="https://talaabusheha.github.io/Simple-Calculator/"
           />
         </div>
       </div>
@@ -335,8 +342,10 @@ export default function Portfolio() {
     'API Integration',
     'Performance',
     'Responsive Design',
-    'Database',
-    'UI/UX',
+    'BootStrap',
+    'HTML5',
+    'CSS3',
+    'Work with team',
   ];
 
   // Duplicate for seamless loop
@@ -434,16 +443,15 @@ export default function Portfolio() {
       <div className="max-w-4xl mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="text-4xl">💬</div>
-            <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-              اتواصلي معي
-            </h2>
+            <div className="text-4xl"></div>
+            <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">Contact Me</h2>
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-emerald-400 mx-auto rounded-full"></div>
         </div>
 
         <p className="text-xl text-gray-300 text-center mb-12 leading-relaxed">
-          عندك مشروع بدك تشتغليه معي؟ أنا هسع مستعدة! <span className="text-emerald-400 font-semibold">بندك رد سريع ؟</span> 🚀
+        Do you have a project you'd like to work on together? I'm ready now! 
+Need a quick response? 
         </p>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -453,7 +461,7 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="group flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-green-500/10 to-green-500/5 border border-green-400/50 rounded-xl hover:bg-green-500/20 hover:border-green-400 hover:shadow-[0_15px_40px_rgba(34,197,94,0.2)] transition-all duration-300 hover:-translate-y-1"
           >
-            <span className="text-3xl">💬</span>
+            <span className="text-3xl text-green-400 "><FaWhatsapp/></span>
             <div className="text-left">
               <div className="font-bold text-green-400">WhatsApp</div>
               <div className="text-sm text-gray-400">+970 594828270</div>
@@ -464,9 +472,9 @@ export default function Portfolio() {
             href="mailto:talaabusheha@gmail.com"
             className="group flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-cyan-500/10 to-cyan-500/5 border border-cyan-400/50 rounded-xl hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_15px_40px_rgba(34,211,238,0.2)] transition-all duration-300 hover:-translate-y-1"
           >
-            <span className="text-3xl">✉️</span>
+            <span className="text-3xl"><MdMarkEmailUnread/></span>
             <div className="text-left">
-              <div className="font-bold text-cyan-400">البريد الإلكتروني</div>
+              <div className="font-bold text-cyan-400">Gmail</div>
               <div className="text-sm text-gray-400">talaabusheha@gmail.com</div>
             </div>
           </a>
@@ -477,8 +485,8 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="group flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-slate-600/10 to-slate-600/5 border border-slate-400/50 rounded-xl hover:bg-slate-600/20 hover:border-slate-400 hover:shadow-[0_15px_40px_rgba(100,100,100,0.2)] transition-all duration-300 hover:-translate-y-1"
           >
-            <span className="text-3xl">💻</span>
-            <div className="text-left">
+            <span className="text-3xl "><FaGithub/></span>
+            <div className="text-left ">
               <div className="font-bold text-slate-300">GitHub</div>
               <div className="text-sm text-gray-400">talaabusheha</div>
             </div>
@@ -490,21 +498,15 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="group flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-blue-500/10 to-blue-500/5 border border-blue-400/50 rounded-xl hover:bg-blue-500/20 hover:border-blue-400 hover:shadow-[0_15px_40px_rgba(59,130,246,0.2)] transition-all duration-300 hover:-translate-y-1"
           >
-            <span className="text-3xl">🔗</span>
+            <span className="text-3xl text-blue-500"><FaLinkedin/></span>
             <div className="text-left">
-              <div className="font-bold text-blue-400">LinkedIn</div>
-              <div className="text-sm text-gray-400">talaabusheha2832005</div>
+              <div className="font-bold text-blue-500">LinkedIn</div>
+              <div className="text-sm text-gray-400">Tala Abusheha</div>
             </div>
           </a>
         </div>
 
-        <div className="p-8 bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 border border-cyan-400/30 rounded-2xl">
-          <p className="text-center text-gray-300 text-lg">
-            <span className="text-cyan-400 font-bold">⏱️ وقت الرد:</span> عادة بردّ في أقل من 24 ساعة
-            <br />
-            <span className="text-emerald-400 font-semibold mt-2 block">✨ دايماً مستعدة للتعاون والمشاريع الجديدة!</span>
-          </p>
-        </div>
+
       </div>
     </section>
   );
@@ -516,35 +518,37 @@ export default function Portfolio() {
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-lg"></div>
+              <img src={logo} alt="Tala" className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-lg"></img>
               <div className="font-bold text-lg text-cyan-400">Tala</div>
             </div>
-            <p className="text-gray-400 text-sm">مطورة فرونت-اند بشغفة بناء تطبيقات ويب استثنائية</p>
+            <p className="text-gray-400 text-sm">
+
+Frontend developer passionate about building exceptional web applications</p>
           </div>
           <div>
-            <h3 className="font-bold text-white mb-4">الروابط السريعة</h3>
+            <h3 className="font-bold text-white mb-4"> Quick Links</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#about" className="hover:text-cyan-400 transition-colors">عني</a></li>
-              <li><a href="#projects" className="hover:text-cyan-400 transition-colors">مشاريعي</a></li>
-              <li><a href="#skills" className="hover:text-cyan-400 transition-colors">مهاراتي</a></li>
-              <li><a href="#contact" className="hover:text-cyan-400 transition-colors">اتواصل</a></li>
+              <li><a href="#about" className="hover:text-cyan-400 transition-colors">About Me</a></li>
+              <li><a href="#projects" className="hover:text-cyan-400 transition-colors">My Projects</a></li>
+              <li><a href="#skills" className="hover:text-cyan-400 transition-colors">My Skills</a></li>
+              <li><a href="#contact" className="hover:text-cyan-400 transition-colors">Contact Me</a></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-bold text-white mb-4">تابعيني</h3>
+            <h3 className="font-bold text-white mb-4">Follow Me</h3>
             <div className="flex gap-4">
-              <a href="https://www.linkedin.com/in/talaabusheha2832005/" className="text-cyan-400 hover:text-emerald-400 transition-colors text-2xl" target="_blank" rel="noopener noreferrer">in</a>
-              <a href="https://github.com/talaabusheha" className="text-cyan-400 hover:text-emerald-400 transition-colors text-2xl" target="_blank" rel="noopener noreferrer">💻</a>
-              <a href="https://wa.me/970594828270" className="text-cyan-400 hover:text-emerald-400 transition-colors text-2xl" target="_blank" rel="noopener noreferrer">💬</a>
+              <a href="https://www.linkedin.com/in/talaabusheha2832005/" className="text-blue-400 hover:text-gray-600  transition-colors text-2xl" target="_blank" rel="noopener noreferrer"><FaLinkedin/> </a>
+              <a href="https://github.com/talaabusheha" className=" text-slate-300 hover:text-gray-600  transition-colors text-2xl" target="_blank" rel="noopener noreferrer"><FaGithub/></a>
+              <a href="https://wa.me/970594828270" className="text-green-400 hover:text-gray-600 transition-colors text-2xl" target="_blank" rel="noopener noreferrer"><FaWhatsapp/></a>
             </div>
           </div>
         </div>
 
         <div className="border-t border-cyan-500/10 pt-8 text-center">
           <p className="text-gray-500 text-sm">
-            © 2024 Tala Abu Sheha. كل الحقوق محفوظة ✨
+            © 2026 Tala Abu Sheha. All rights reserved 
             <br />
-            <span className="text-xs">Built with React & Tailwind CSS 🚀</span>
+            <span className="text-xs">Built with React & Tailwind CSS </span>
           </p>
         </div>
       </div>
