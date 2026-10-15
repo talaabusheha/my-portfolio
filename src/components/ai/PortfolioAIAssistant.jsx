@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Sparkles, Send, X, Bot, RefreshCw, Mic, MicOff, ExternalLink, ArrowRight } from 'lucide-react';
+import { Sparkles, Send, X, Bot, RefreshCw, Mic, MicOff, ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { askTalaAI } from '../../services/aiService';
 
@@ -124,7 +124,7 @@ export default function PortfolioAIAssistant() {
   };
 
   // Stream Typewriter Effect for newly generated message
-  const streamMessage = (fullText, actions, msgId) => {
+  const streamMessage = (fullText, actions, sources, msgId) => {
     let currentIdx = 0;
     const step = fullText.length > 200 ? 3 : fullText.length > 80 ? 2 : 1;
 
@@ -134,7 +134,7 @@ export default function PortfolioAIAssistant() {
         clearInterval(interval);
         setMessages((prev) =>
           prev.map((m) =>
-            m.id === msgId ? { ...m, text: fullText, isStreaming: false, actions } : m
+            m.id === msgId ? { ...m, text: fullText, isStreaming: false, actions, sources } : m
           )
         );
       } else {
@@ -167,7 +167,7 @@ export default function PortfolioAIAssistant() {
     setIsLoading(true);
 
     try {
-      const { text: aiReply, actions, followUps } = await askTalaAI(text.trim(), messages);
+      const { text: aiReply, actions, followUps, sources } = await askTalaAI(text.trim(), messages);
       const aiMsgId = (Date.now() + 1).toString();
 
       const placeholderMsg = {
@@ -181,8 +181,8 @@ export default function PortfolioAIAssistant() {
       setMessages((prev) => [...prev, placeholderMsg]);
       setIsLoading(false);
 
-      // Start streaming characters
-      streamMessage(aiReply, actions, aiMsgId);
+      // Start streaming characters with RAG sources
+      streamMessage(aiReply, actions, sources, aiMsgId);
 
       // Update follow-up chips if available
       if (followUps && followUps.length > 0) {
@@ -311,8 +311,12 @@ export default function PortfolioAIAssistant() {
                   <h3 className="font-bold text-sm">Ask about Tala</h3>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 </div>
-                <p className={`text-[11px] ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                  AI Portfolio Assistant • Live
+                <p className={`text-[11px] flex items-center gap-1 ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'} font-medium`}>
+                  <span>AI Portfolio Assistant</span>
+                  <span>•</span>
+                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded bg-indigo-500/10 text-[10px] font-semibold border border-indigo-500/20">
+                    RAG Powered ⚡
+                  </span>
                 </p>
               </div>
             </div>
@@ -388,6 +392,41 @@ export default function PortfolioAIAssistant() {
                   }`}
                 >
                   <div className="whitespace-pre-wrap">{formatText(msg.text)}</div>
+
+                  {/* RAG Knowledge Citations / Sources */}
+                  {msg.sources && msg.sources.length > 0 && !msg.isStreaming && (
+                    <div className="pt-2 border-t border-indigo-500/10 flex flex-col gap-1.5 mt-1">
+                      <div className="flex items-center gap-1 text-[10px] font-semibold text-indigo-400">
+                        <BookOpen className="w-3 h-3 text-indigo-400" />
+                        <span>المصادر المسترجعة (RAG Knowledge):</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {msg.sources.map((src, sIdx) => (
+                          <a
+                            key={sIdx}
+                            href={src.url}
+                            target={src.url.startsWith('http') ? '_blank' : '_self'}
+                            rel="noopener noreferrer"
+                            onClick={(e) => {
+                              if (src.url.startsWith('#')) {
+                                e.preventDefault();
+                                const el = document.querySelector(src.url);
+                                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                              }
+                            }}
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-medium transition-all ${
+                              isDarkMode
+                                ? 'bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-300 hover:text-white border border-zinc-700/50'
+                                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-indigo-600 border border-slate-200 shadow-xs'
+                            }`}
+                          >
+                            <span>{src.label}</span>
+                            <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Interactive Action Triggers (Smooth Scroll / Links) */}
                   {msg.actions && msg.actions.length > 0 && (

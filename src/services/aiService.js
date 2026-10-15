@@ -9,6 +9,8 @@
  * 5. Production Google Gemini API Integration (gemini-2.0-flash) with seamless offline fallback.
  */
 
+import { retrieveKnowledge } from './ragEngine.js';
+
 const SYSTEM_INSTRUCTION = `
 أنت المساعد الذكي الشخصي للمطورة تالة ابوشيحة (Tala Abusheha)، مطورة واجهات أمامية وموجهة برمجية (Front-End Developer & Co-Mentor).
 شخصيتك: لبق، ذكي جداً، ودود، راقٍ، ومرحب بالزوار (ذوق وأدب عالي، أسلوب شامي/فلسطيني دافئ ومهني).
@@ -781,21 +783,33 @@ Vite, Git & GitHub, Supabase, Axios & REST APIs, Antigravity IDE, Prompt Enginee
 }
 
 /**
- * Main query function to get response from Gemini API or the Smart Local Matcher
- * Returns { text, actions, followUps }
+ * Main query function to get response from Gemini API or the Smart Local Matcher,
+ * fully empowered by the in-browser RAG Retrieval Engine and verified knowledge base.
+ * Returns { text, sources, actions, followUps }
  */
 export async function askTalaAI(userMessage, conversationHistory = []) {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  const apiKey =
+    typeof import.meta !== 'undefined' && import.meta.env
+      ? import.meta.env.VITE_GEMINI_API_KEY
+      : undefined;
   const { actions, followUps } = extractActionsAndFollowUps(userMessage);
 
-  // If no Gemini API key is configured, instantly use the ultra-smart local matcher
+  // 1. Perform In-Browser RAG Semantic Retrieval against Tala's Knowledge Base
+  const { sources, contextText, isConfident } = retrieveKnowledge(userMessage);
+
+  // If no Gemini API key is configured, use the smart local matcher enriched with RAG sources
   if (!apiKey) {
     await new Promise((resolve) => setTimeout(resolve, 300));
     const text = getLocalFallbackResponse(userMessage);
-    return { text, actions, followUps };
+    return {
+      text,
+      sources: isConfident ? sources : [],
+      actions,
+      followUps,
+    };
   }
 
-  // If Gemini API key is available, call the Gemini LLM
+  // If Gemini API key is available, call Gemini with the RAG-augmented prompt
   try {
     const formattedContents = [
       ...conversationHistory.map((msg) => ({
@@ -808,7 +822,11 @@ export async function askTalaAI(userMessage, conversationHistory = []) {
       },
     ];
 
-    // Using gemini-2.0-flash with fallback to gemini-1.5-flash
+    const augmentedInstruction = contextText
+      ? `${SYSTEM_INSTRUCTION}\n\n====================\nسياق ومعلومات موثقة ومسترجعة من قاعدة بيانات تالة الحصرية (RAG Retrieved Context):\n${contextText}\n====================\nاستخدم هذه المعلومات الموثقة للإجابة بدقة بالغة وبأسلوب تالة المهني والودود.`
+      : SYSTEM_INSTRUCTION;
+
+    // Using gemini-2.0-flash with fallback
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
@@ -818,12 +836,12 @@ export async function askTalaAI(userMessage, conversationHistory = []) {
         },
         body: JSON.stringify({
           system_instruction: {
-            parts: [{ text: SYSTEM_INSTRUCTION }],
+            parts: [{ text: augmentedInstruction }],
           },
           contents: formattedContents,
           generationConfig: {
             temperature: 0.6,
-            maxOutputTokens: 600,
+            maxOutputTokens: 650,
           },
         }),
       }
@@ -838,10 +856,20 @@ export async function askTalaAI(userMessage, conversationHistory = []) {
       data.candidates?.[0]?.content?.parts?.[0]?.text ||
       getLocalFallbackResponse(userMessage);
 
-    return { text: candidateText, actions, followUps };
+    return {
+      text: candidateText,
+      sources: isConfident ? sources : [],
+      actions,
+      followUps,
+    };
   } catch (error) {
-    console.warn('Falling back to smart local AI engine:', error);
+    console.warn('Falling back to smart local AI engine with RAG:', error);
     const text = getLocalFallbackResponse(userMessage);
-    return { text, actions, followUps };
+    return {
+      text,
+      sources: isConfident ? sources : [],
+      actions,
+      followUps,
+    };
   }
 }
