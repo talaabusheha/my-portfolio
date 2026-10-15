@@ -3,27 +3,28 @@ import { Sparkles, Send, X, Bot, RefreshCw, Mic, MicOff, ExternalLink, ArrowRigh
 import { useTheme } from '../../hooks/useTheme';
 import { askTalaAI } from '../../services/aiService';
 
-const STORAGE_KEY = 'tala_portfolio_ai_chat_v2';
+const STORAGE_KEY = 'tala_portfolio_ai_chat_v3';
 
 const INITIAL_WELCOME = {
   id: 'welcome',
   sender: 'ai',
-  text: 'يا أهلاً وسهلاً بك! 👋 أنا المساعد الذكي الخاص بالمطورة **تالة ابوشيحة**.\nيسعدني جداً الإجابة على أي سؤال بخصوص مهارات تالة، مشاريعها، خبراتها في TAQAT و Kafeeli، أو كيفية التواصل معها للعمل. تفضل بسؤالي أو اختر من الأسئلة السريعة بالأعلى! ✨',
+  text: 'يا أهلاً وسهلاً بك! 👋 أنا المساعد الذكي الخاص بالمطورة **تالة ابوشيحة**.\nيسعدني جداً الإجابة على أي استفسار بخصوص مهارات تالة، مشاريعها الحية، خبراتها في TAQAT و Kafeeli، أو كيفية التواصل معها لبدء مشروع جديد. تفضل بسؤالي أو اختر من الأسئلة السريعة بالأعلى! ✨',
   time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
   actions: [
     { type: 'scroll', target: '#projects', label: 'استعراض المشاريع المميزة 🚀' },
     { type: 'scroll', target: '#skills', label: 'الترسانة التقنية ⚡' },
+    { type: 'link', target: 'https://wa.me/970594828270', label: 'محادثة واتساب مباشرة 💬' },
   ],
 };
 
 const DEFAULT_QUICK_QUESTIONS = [
-  { label: 'Who is Tala?', query: 'Who is Tala Abusheha and what does she do?' },
-  { label: 'Projects? 🌟', query: 'Show me the featured projects built by Tala' },
-  { label: 'Tech stack? ⚡', query: 'What is Tala\'s tech stack and skills?' },
-  { label: 'Work experience? 💼', query: 'Tell me about Tala\'s work experience and TAQAT mentorship' },
-  { label: 'Resume / CV 📄', query: 'How can I view or download Tala\'s CV / Resume?' },
-  { label: 'How to contact? 📬', query: 'How can I contact or hire Tala?' },
-  { label: 'من هي تالة؟ 🌸', query: 'من هي تالة وما هي تخصصاتها البرمجية؟' },
+  { label: 'من هي تالة؟ 🌸', query: 'مين هي تالة ابوشيحة وما هو مجالها؟' },
+  { label: 'أبرز المشاريع 🌟', query: 'ما هي أبرز المشاريع التي طورتها تالة؟' },
+  { label: 'الترسانة التقنية ⚡', query: 'ما هي التقنيات والمهارات التي تتقنها تالة؟' },
+  { label: 'التواصل والتوظيف 📬', query: 'كيف يمكنني التواصل مع تالة أو توظيفها؟' },
+  { label: 'تدريب طاقات 💼', query: 'أخبرني عن خبرة تالة في التدريب وبرنامج TAQAT' },
+  { label: 'السيرة الذاتية (CV) 📄', query: 'كيف يمكنني استعراض وتحميل الـ CV الخاص بتالة؟' },
+  { label: 'Who is Tala? 🚀', query: 'Who is Tala Abusheha and what does she do?' },
 ];
 
 export default function PortfolioAIAssistant() {

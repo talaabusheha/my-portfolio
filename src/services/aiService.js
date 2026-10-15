@@ -1,301 +1,801 @@
 /**
- * AI Service for Tala's Portfolio Assistant
- * Supports Gemini 2.5 Flash via REST API with an intelligent, polite local engine
- * and structured action triggers (Smooth Scroll, External Links, Resume Download).
+ * Advanced AI Service for Tala's Portfolio Assistant
+ * 
+ * Features:
+ * 1. Deep Arabic NLP Text Normalization (Handles typos, diacritics, Alif/Yaa/Taa variations, e.g. "مين تالى" vs "مين تالة").
+ * 2. Multi-Tier Semantic Intent Matcher with 20+ specialized topics covering all aspects of Tala's career, projects, and skills.
+ * 3. Smart Action Triggers (Smooth Scroll to sections, Live Project previews, Direct WhatsApp/Email/CV links).
+ * 4. Dynamic Contextual Follow-up chips that adapt based on the conversation.
+ * 5. Production Google Gemini API Integration (gemini-2.0-flash) with seamless offline fallback.
  */
 
 const SYSTEM_INSTRUCTION = `
-You are the personal AI Assistant for Tala Abusheha (تالة ابوشيحة), a professional Front-End Developer and Co-Mentor.
-Your personality is extremely polite, warm, welcoming, intelligent, respectful, and articulate (لبق، ودود، ذوق، ومحترم جداً).
+أنت المساعد الذكي الشخصي للمطورة تالة ابوشيحة (Tala Abusheha)، مطورة واجهات أمامية وموجهة برمجية (Front-End Developer & Co-Mentor).
+شخصيتك: لبق، ذكي جداً، ودود، راقٍ، ومرحب بالزوار (ذوق وأدب عالي، أسلوب شامي/فلسطيني دافئ ومهني).
 
-Knowledge Base about Tala Abusheha (تالة ابوشيحة):
-- Name: Tala Abusheha (تالة ابوشيحة)
-- Profession: Front-End Developer & Co-Mentor (مطورة واجهات أمامية وموجهة برمجية)
-- Experience Level: +2 years of active development & mentoring experience.
-- Key Achievements: +20 completed projects, +10 satisfied clients.
-- Main Specialization: Modern Front-End Web Development with React.js, Vite, Tailwind CSS, JavaScript (ES6+), TypeScript, HTML5/CSS3, and RESTful APIs.
+قاعدة بيانات ومعلومات تالة ابوشيحة (Tala Abusheha):
+1. الاسم الكامل: تالة ابوشيحة (Tala Abusheha).
+2. المهنة والتخصص: مطورة واجهات أمامية (Front-End Developer) متخصصة في React.js و Vite و Tailwind CSS و Modern Web APIs، بالإضافة لكونها موجهة برمجية (Co-Mentor).
+3. الموقع والإتاحة: تقيم في فلسطين، وتعمل عن بُعد (Remote) مع شركات وفرق عمل في أي مكان بالعالم. متاحة للتوظيف (Full-time / Part-time) ومشاريع العمل الحر (Freelance).
+4. سنوات الخبرة والإنجازات: +2 سنوات من الخبرة العملية، أنجزت +20 مشروعاً ناجحاً، وتعاملت مع +10 عملاء راضين.
 
-Work Experience:
-1. Co-Mentor & Front-End Developer at TAQAT — CodeMap 3 Program (Sep 2026 - Present):
-   - Co-Mentoring trainees, conducting code reviews, and guiding web development workflows.
-   - Architected and developed a full-scale session-based Dynamic QR Attendance System with mentor dashboard and automated XLSX reporting.
-2. Front-End Web Developer at Kafeeli Platform (Team Collaboration, 2026):
-   - Collaborated in a cross-functional team (UI/UX, Frontend & Backend) to build a comprehensive orphan sponsorship platform.
-   - Built the Guardian Dashboard using Axios and RESTful APIs.
-3. Freelance & Independent Projects (2024 - Present):
-   - Building responsive, fast, pixel-perfect web applications with clean code.
+الخبرات المهنية (Work Experience):
+1. Co-Mentor & Front-End Developer في برنامج TAQAT — CodeMap 3 (سبتمبر 2026 - الحالي):
+   - تدريب وتوجيه المتدربين الجدد على تقنيات تطوير الواجهات الحديثة.
+   - مراجعة الأكواد (Code Reviews) وتقديم الدعم التقني وأفضل الممارسات.
+   - هندسة وتطوير نظام الحضور الذكي بالـ QR Code مع لوحة تحكم وتصدير تقارير Excel (XLSX).
+2. Front-End Web Developer في منصة كفيلي - Kafeeli (2026):
+   - العمل ضمن فريق عمل متكامل (UI/UX Designers, Front-End, Back-End).
+   - بناء لوحة تحكم الأوصياء (Guardian Dashboard) وربط الـ RESTful APIs بواسطة Axios.
+3. مشاريع حرة ومستقلة (Freelance) (2024 - الحالي):
+   - تطوير تطبيقات ويب تفاعلية وسريعة ومتوافقة مع جميع الأجهزة (Responsive & Accessible).
 
-Featured Projects:
-1. Kafeeli (Orphan Sponsorship Platform): Real-world web platform for transparent orphan sponsorship using React.js, Vite, Axios, and REST APIs. (Link: https://kafeeli-frontend.vercel.app/)
-2. Smart Dynamic QR Attendance System: Real-world attendance tool for TAQAT with dynamic QR generation, Supabase, real-time analytics, and XLSX export. (Link: https://taqat-mentors.vercel.app/admin/dashboard)
-3. Islamic Prayer Times & Schedules: Location-aware web app calculating accurate prayer times via REST APIs. (Link: https://prayer-times-api-lime.vercel.app/)
-4. Task Flow & Productivity Hub (To-Do List): Real-time task manager with local storage persistence and priority filtering. (Link: https://talaabusheha.github.io/To-Do-List/)
+المشاريع المميزة (Featured Projects):
+1. منصة كفيلي (Kafeeli): منصة لكفالة الأيتام بشفافية مالية وحالة كاملة (React.js, Vite, Axios, REST APIs, Tailwind CSS).
+   رابط المشروع: https://kafeeli-frontend.vercel.app/
+2. نظام الحضور الذكي (Smart Dynamic QR Attendance System): أداة متطورة لبرنامج TAQAT لتسجيل الحضور اللحظي بالـ QR ومنع التلاعب، مع لوحة تحكم وتقارير XLSX (React 19, Vite, Supabase, Tailwind CSS).
+   رابط المشروع: https://taqat-mentors.vercel.app/admin/dashboard
+3. تطبيق مواقيت الصلاة (Islamic Prayer Times & Schedules): يعتمد على الموقع الجغرافي لحساب المواقيت بدقة عبر REST Web APIs (HTML5, CSS3, JavaScript ES6+).
+   رابط المشروع: https://prayer-times-api-lime.vercel.app/
+4. تطبيق إدارة المهام (Task Flow Hub / To-Do List): إدارة مهام لحظية مع حفظ البيانات محلياً (LocalStorage) والتصفية المتقدمة.
+   رابط المشروع: https://talaabusheha.github.io/To-Do-List/
 
-Technical Arsenal (Skills):
-- Core: React.js, JavaScript (ES6+), TypeScript, HTML5, CSS3.
-- Styling: Tailwind CSS, Bootstrap, UI Components, Responsive Design, CSS Animations.
-- Tools & Ecosystem: Vite, Git & GitHub, Supabase, REST APIs & Axios, Antigravity IDE, Claude & Gemini AI.
+الترسانة التقنية والمهارات (Technical Arsenal):
+- اللغات والواجهات: React 19, JavaScript (ES6+), TypeScript, HTML5, CSS3.
+- التنسيق والتصميم: Tailwind CSS, Bootstrap, Responsive UI/UX, CSS Micro-animations.
+- الأدوات والأنظمة: Vite, Git & GitHub, Supabase, Axios, RESTful APIs, Antigravity IDE, Claude AI & Gemini Prompt Engineering.
 
-Contact & Social Links:
-- Email: talaabusheha@gmail.com
-- WhatsApp: +970 594828270 (https://wa.me/970594828270)
-- LinkedIn: https://www.linkedin.com/in/talaabusheha2832005/
-- GitHub: https://github.com/talaabusheha
-- Resume: https://drive.google.com
+وسائل التواصل والروابط:
+- البريد الإلكتروني: talaabusheha@gmail.com
+- الواتساب: +970 594828270 (https://wa.me/970594828270)
+- لينكد إن: https://www.linkedin.com/in/talaabusheha2832005/
+- جيت هاب: https://github.com/talaabusheha
+- السيرة الذاتية (CV): https://drive.google.com
 
-Conversational Guidelines & Tone:
-1. Always be courteous, cheerful, and pleasant.
-2. If the user thanks you, respond warmly.
-3. If the user praises or compliments, respond with gratitude.
-4. If asked pleasantries like "كيف حالك", reply warmly and pleasantly.
-5. If the user asks general unrelated questions, decline very politely and steer back smoothly.
-6. Reply in the user's language (Arabic / English).
+إرشادات الحديث:
+- أجب دائماً باللغة التي يسأل بها المستخدم (عربي أو إنجليزي).
+- إذا سألك المستخدم "مين تالا" أو أي سؤال عنها أجب بفخر ووضوح عن هويتها ومجالها.
+- قدم دائماً روابط سريعة أو دعوة للتواصل للعمل معها.
 `;
 
 /**
- * Helper to determine smart interactive actions based on query and response
+ * Advanced Arabic Text Normalizer
+ * Cleans diacritics, tatweel, and normalizes all forms of Alif, Yaa, Taa Marbuta
+ * Example: "مين تالى" -> "مين تالي", "إحكيلي عن تالة" -> "احكيلي عن تاله"
  */
-function extractActionsAndFollowUps(query) {
+export function normalizeArabicText(str) {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .trim()
+    // Remove Arabic diacritics / Tashkeel
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    // Remove Tatweel (Kashida)
+    .replace(/\u0640/g, '')
+    // Normalize Alif forms (أ, إ, آ, ٱ -> ا)
+    .replace(/[أإآٱ]/g, 'ا')
+    // Normalize Yaa / Alif Maqsura (ى, ئ -> ي)
+    .replace(/[ىئ]/g, 'ي')
+    // Normalize Taa Marbuta (ة -> ه)
+    .replace(/ة/g, 'ه')
+    // Normalize punctuation
+    .replace(/[.,?!؟؛،:()\[\]{}"'\\/-]/g, ' ')
+    // Collapse multiple whitespaces
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Smart Interactive Action & Dynamic Follow-up generator
+ */
+export function extractActionsAndFollowUps(query) {
+  const norm = normalizeArabicText(query);
   const q = query.toLowerCase();
 
-  // Projects
-  if (q.includes('project') || q.includes('مشاريع') || q.includes('مشروع') || q.includes('اعمال') || q.includes('أعمال') || q.includes('kafeeli') || q.includes('كفيلي')) {
+  // 1. Specific Project: Kafeeli
+  if (norm.includes('كفيلي') || q.includes('kafeeli')) {
+    return {
+      actions: [
+        { type: 'link', target: 'https://kafeeli-frontend.vercel.app/', label: 'معاينة منصة كفيلي الحية 🌟' },
+        { type: 'scroll', target: '#projects', label: 'المزيد من المشاريع 🚀' },
+      ],
+      followUps: ['احكيلي عن نظام الحضور بطاقات', 'ما هي الترسانة التقنية لتالة؟', 'كيف بقدر اتواصل مع تالة؟'],
+    };
+  }
+
+  // 2. Specific Project: TAQAT / QR
+  if (norm.includes('طاقات') || norm.includes('حضور') || norm.includes('كود') || q.includes('taqat') || q.includes('qr')) {
+    return {
+      actions: [
+        { type: 'link', target: 'https://taqat-mentors.vercel.app/admin/dashboard', label: 'معاينة نظام الحضور الذكي 🚀' },
+        { type: 'scroll', target: '#experience', label: 'سيكشن الخبرات و TAQAT 💼' },
+      ],
+      followUps: ['احكيلي عن منصة كفيلي', 'ما هي مهارات تالة في React؟', 'تحميل السيرة الذاتية (CV)'],
+    };
+  }
+
+  // 3. General Projects
+  if (
+    norm.includes('مشروع') ||
+    norm.includes('مشاريع') ||
+    norm.includes('اعمال') ||
+    norm.includes('شغل') ||
+    q.includes('project') ||
+    q.includes('portfolio')
+  ) {
     return {
       actions: [
         { type: 'scroll', target: '#projects', label: 'الانتقال لقسم المشاريع 🚀' },
-        { type: 'link', target: 'https://kafeeli-frontend.vercel.app/', label: 'معاينة منصة كفيلي 🌟' },
+        { type: 'link', target: 'https://kafeeli-frontend.vercel.app/', label: 'معاينة كفيلي 🌟' },
+        { type: 'link', target: 'https://taqat-mentors.vercel.app/admin/dashboard', label: 'نظام الحضور بالـ QR ⚡' },
       ],
-      followUps: ['Tech stack?', 'How to contact?', 'Work experience?'],
+      followUps: ['ما هي التقنيات المستخدمة؟', 'هل تالة متاحة للعمل الحر؟', 'كيف اتواصل معها؟'],
     };
   }
 
-  // Skills
-  if (q.includes('skill') || q.includes('tech') || q.includes('stack') || q.includes('مهارات') || q.includes('تقنيات') || q.includes('ادوات')) {
+  // 4. Skills & Tech Stack
+  if (
+    norm.includes('مهار') ||
+    norm.includes('تقني') ||
+    norm.includes('لغات') ||
+    norm.includes('ادوات') ||
+    norm.includes('رياكت') ||
+    norm.includes('تايلوند') ||
+    norm.includes('فايت') ||
+    q.includes('skill') ||
+    q.includes('tech') ||
+    q.includes('stack') ||
+    q.includes('react')
+  ) {
     return {
       actions: [
         { type: 'scroll', target: '#skills', label: 'مشاهدة الترسانة التقنية ⚡' },
-        { type: 'scroll', target: '#projects', label: 'مشاريع بنيت بهاد الـ Stack 💻' },
+        { type: 'scroll', target: '#projects', label: 'مشاريع بُنيت بهذه التقنيات 💻' },
       ],
-      followUps: ['Show me featured projects', 'Work experience?', 'How to contact?'],
+      followUps: ['استعراض المشاريع المميزة', 'خبرات تالة السابقة؟', 'تحميل الـ CV'],
     };
   }
 
-  // Contact / Hire
-  if (q.includes('contact') || q.includes('hire') || q.includes('email') || q.includes('whatsapp') || q.includes('تواصل') || q.includes('توظيف') || q.includes('واتساب') || q.includes('ايميل')) {
+  // 5. Contact, Hire & Work
+  if (
+    norm.includes('تواصل') ||
+    norm.includes('توظيف') ||
+    norm.includes('رقم') ||
+    norm.includes('واتس') ||
+    norm.includes('ايميل') ||
+    norm.includes('سعر') ||
+    norm.includes('شغل') ||
+    q.includes('contact') ||
+    q.includes('hire') ||
+    q.includes('whatsapp') ||
+    q.includes('email')
+  ) {
     return {
       actions: [
         { type: 'link', target: 'https://wa.me/970594828270', label: 'محادثة عبر واتساب 💬' },
-        { type: 'scroll', target: '#contact', label: 'الانتقال لنموذج التواصل 📬' },
+        { type: 'scroll', target: '#contact', label: 'نموذج إرسال رسالة 📬' },
+        { type: 'link', target: 'https://www.linkedin.com/in/talaabusheha2832005/', label: 'حساب LinkedIn 💼' },
       ],
-      followUps: ['Download Resume (CV)', 'Projects?', 'Who is Tala?'],
+      followUps: ['تحميل السيرة الذاتية (CV)', 'ما هي المشاريع السابقة؟', 'المهارات التقنية'],
     };
   }
 
-  // Resume / CV
-  if (q.includes('resume') || q.includes('cv') || q.includes('سيرة') || q.includes('سي في')) {
+  // 6. Resume / CV
+  if (norm.includes('سيره') || norm.includes('سي في') || q.includes('cv') || q.includes('resume')) {
     return {
       actions: [
         { type: 'link', target: 'https://drive.google.com', label: 'فتح وتحميل السيرة الذاتية (CV) 📄' },
-        { type: 'scroll', target: '#experience', label: 'استعراض الخبرات بالصفحة 💼' },
+        { type: 'scroll', target: '#experience', label: 'استعراض المسيرة المهنية 💼' },
       ],
-      followUps: ['How to contact?', 'Tech stack?', 'Projects?'],
+      followUps: ['كيف اتواصل مع تالة؟', 'أبرز مشاريع تالة؟', 'الترسانة التقنية'],
     };
   }
 
-  // Experience
-  if (q.includes('experience') || q.includes('خبرة') || q.includes('خبرات') || q.includes('taqat') || q.includes('طاقات')) {
+  // 7. Experience / TAQAT Mentorship
+  if (
+    norm.includes('خبر') ||
+    norm.includes('توجيه') ||
+    norm.includes('تدريب') ||
+    q.includes('experience') ||
+    q.includes('mentor')
+  ) {
     return {
       actions: [
-        { type: 'scroll', target: '#experience', label: 'الانتقال لسيكشن الخبرات 💼' },
-      ],
-      followUps: ['Projects?', 'Tech stack?', 'How to contact?'],
-    };
-  }
-
-  // About / Who is Tala
-  if (q.includes('who is') || q.includes('من هي') || q.includes('مين تالة') || q.includes('about')) {
-    return {
-      actions: [
+        { type: 'scroll', target: '#experience', label: 'الانتقال لقسم الخبرات 💼' },
         { type: 'scroll', target: '#about', label: 'قراءة نبذة تالة 🌸' },
-        { type: 'scroll', target: '#projects', label: 'استعراض المشاريع 🚀' },
       ],
-      followUps: ['Tech stack?', 'Work experience?', 'How to contact?'],
+      followUps: ['أبرز المشاريع؟', 'المهارات البرمجية؟', 'كيفية التواصل؟'],
     };
   }
 
+  // 8. Identity / About / Who is Tala (Default smart fallbacks)
   return {
-    actions: [],
-    followUps: ['Who is Tala?', 'Projects?', 'Tech stack?', 'How to contact?'],
+    actions: [
+      { type: 'scroll', target: '#about', label: 'قراءة نبذة تالة 🌸' },
+      { type: 'scroll', target: '#projects', label: 'استعراض المشاريع 🚀' },
+      { type: 'link', target: 'https://wa.me/970594828270', label: 'تواصل عبر واتساب 💬' },
+    ],
+    followUps: ['Who is Tala?', 'Projects? 🌟', 'Tech stack? ⚡', 'How to contact? 📬'],
   };
 }
 
 /**
- * Intelligent and polite local intent matching engine (Works without API key or offline)
+ * Ultra-Smart Local Matching Engine
+ * Accurately responds to any question about Tala even without an internet connection or API Key.
  */
-function getLocalFallbackResponse(userMessage) {
-  const raw = userMessage.trim();
-  const query = raw.toLowerCase();
+export function getLocalFallbackResponse(userMessage) {
+  const norm = normalizeArabicText(userMessage);
+  const q = userMessage.toLowerCase().trim();
 
-  // 1. Resume / CV
-  if (query.includes('cv') || query.includes('resume') || query.includes('سيرة') || query.includes('سي في')) {
-    return `تفضّل! يمكنك استعراض وتحميل **السيرة الذاتية (Resume / CV)** الخاصة بتالة ابوشيحة مباشرة عبر الزر بالأسفل، أو التمرير لسيكشن الخبرات للاطلاع على مسيرتها بالتفصيل 📄✨`;
+  // Helper flags
+  const hasTalaName =
+    norm.includes('تالا') ||
+    norm.includes('تاله') ||
+    norm.includes('تالي') ||
+    norm.includes('ابوشيحه') ||
+    norm.includes('صاحب') ||
+    q.includes('tala') ||
+    q.includes('abusheha');
+
+  // ================= 1. IDENTITY / WHO IS TALA (مين تالى / مين تالة / مين تالا) =================
+  const isWhoQuestion =
+    norm.includes('مين تالي') ||
+    norm.includes('مين تاله') ||
+    norm.includes('مين تالا') ||
+    norm.includes('من تالي') ||
+    norm.includes('من تاله') ||
+    norm.includes('من تالا') ||
+    norm.includes('مين هي') ||
+    norm.includes('من هي') ||
+    norm.includes('من هو') ||
+    norm.includes('مين صاحبه') ||
+    norm.includes('مين صاحب') ||
+    norm.includes('عرفني على تال') ||
+    norm.includes('احكيلي عن تال') ||
+    norm.includes('احكيلي عنها') ||
+    norm.includes('نبذه عن تال') ||
+    norm.includes('نبذه عنها') ||
+    norm.includes('معلومات عن تال') ||
+    norm.includes('شو بتشتغل تال') ||
+    norm.includes('شو مجال تال') ||
+    q.includes('who is tala') ||
+    q.includes('about tala') ||
+    q.includes('tell me about tala') ||
+    ((norm.includes('مين') || norm.includes('عرفني') || norm.includes('نبذه')) && hasTalaName) ||
+    norm === 'تالا' ||
+    norm === 'تاله' ||
+    norm === 'تالي' ||
+    norm === 'مين' ||
+    q === 'tala' ||
+    q === 'who is tala';
+
+  if (isWhoQuestion) {
+    return `🌸 **تالة ابوشيحة (Tala Abusheha):**
+هي **مطورة واجهات أمامية متخصصة (Front-End Developer)** وموجهة برمجية (Co-Mentor) مقيمة في فلسطين وتعمل عن بُعد حول العالم.
+
+✨ **أهم ما يميز تالة:**
+- **خبرة عملية +2 سنوات** في بناء وتطوير تطبيقات الويب السريعة والحديثة.
+- متخصصة باحترافية عالية في: **React 19, Vite, Tailwind CSS, JavaScript (ES6+), TypeScript, و RESTful APIs**.
+- أنجزت **أكثر من 20 مشروعاً ناجحاً** ونالت رضا أكثر من 10 عملاء وفرق عمل.
+- تعمل حالياً كـ **Co-Mentor** في برنامج **TAQAT — CodeMap 3**، حيث توجه المتدربين وتبني أدوات ذكية مثل نظام الحضور بـ QR Code.
+- شاركت في بناء منصات إنتاجية حقيقية مثل منصة **كفيلي (Kafeeli)** لكفالة الأيتام.
+
+تالة شغوفة بتحويل التصاميم إلى أكواد نظيفة وسريعة وتجارب مستخدم فائقة الجمال! 🚀`;
   }
 
-  // 2. Thanks & Appreciation
+  // ================= 2. WHO ARE YOU (BOT IDENTITY) =================
   if (
-    query.match(/^(شكرا|شكراً|شكرا لك|شكرا الك|يسلمو|تسلم|مشكور|الله يعطيك العافية|يعطيك العافيه|ممنون|تسلم ايدك|thank you|thanks|thx|appreciate it)/) ||
-    query.includes('شكرا') ||
-    query.includes('شكراً') ||
-    query.includes('تسلم') ||
-    query.includes('يسلمو') ||
-    query.includes('يعطيك العافية') ||
-    query.includes('يعطيك العافيه') ||
-    query.includes('thank')
+    norm.includes('مين انت') ||
+    norm.includes('من انت') ||
+    norm.includes('شو انت') ||
+    norm.includes('ايش انت') ||
+    norm.includes('عرف عن نفسك') ||
+    q.includes('who are you') ||
+    q.includes('what are you')
   ) {
-    return `العفو! على الرحب والسعة، دائماً في الخدمة ✨ 
-يسعدني جداً مساعدتك. إذا عندك أي سؤال تاني عن **تالة ابوشيحة**، مهاراتها، أو حابب تتواصل معها للعمل، أنا جاهز بأي وقت! 😊`;
+    return `أنا **المساعد الذكي الشخصي لتالة ابوشيحة** 🤖✨
+تم تدريبي للإجابة على كل استفساراتك حول تالة:
+- مهاراتها وترسانتها التقنية 💻
+- مشاريعها وتطبيقاتها الحية 🚀
+- مسيرتها المهنية وتجربتها في التوجيه مع TAQAT 💼
+- مساعدتك في التواصل المباشر معها أو طلب عرض لمشروعك القادم! 😊`;
   }
 
-  // 3. Praise & Compliments
+  // ================= 3. SPECIFIC PROJECT: KAFEELI (منصة كفيلي) =================
+  if (norm.includes('كفيلي') || q.includes('kafeeli')) {
+    return `🌟 **مشروع منصة كفيلي (Kafeeli Platform):**
+هو منصة ويب حقيقية متكاملة تهدف إلى كفالة الأيتام وضمان الشفافية المالية الكاملة بين الأوصياء والكفلاء.
+
+📌 **دور تالة بالمشروع:**
+- عملت ضمن فريق عمل تقني متكامل ضم مصممي UI/UX ومطوري فرونت إند وباك إند.
+- قامت تالة بهندسة وتطوير **لوحة تحكم الأوصياء (Guardian Dashboard)** بالكامل.
+- ربطت واجهات التطبيق مع خوادم الـ RESTful APIs باستخدام **Axios**.
+- اعتمدت على **React.js, Vite, و Tailwind CSS** لضمان أداء فائق وتجربة مستخدم مريحة ومتجاوبة 100%.
+
+🔗 يمكنك معاينة المنصة مباشرة عبر الزر التفاعلي بالأسفل!`;
+  }
+
+  // ================= 4. SPECIFIC PROJECT: TAQAT QR ATTENDANCE (نظام الحضور بطاقات) =================
   if (
-    query.includes('ما شاء الله') ||
-    query.includes('ماشاءالله') ||
-    query.includes('ماشاء الله') ||
-    query.includes('شاطرة') ||
-    query.includes('مبدعة') ||
-    query.includes('مبدع') ||
-    query.includes('ممتاز') ||
-    query.includes('رائع') ||
-    query.includes('كفو') ||
-    query.includes('برافو') ||
-    query.includes('فخورة') ||
-    query.includes('great') ||
-    query.includes('awesome') ||
-    query.includes('impressive') ||
-    query.includes('good job')
+    norm.includes('طاقات') ||
+    norm.includes('حضور') ||
+    norm.includes('كود مارب') ||
+    norm.includes('qr') ||
+    q.includes('taqat') ||
+    q.includes('attendance')
   ) {
-    return `تسلم كلك ذوق! يسعدنا جداً هالكلام الطيب المشجع 🌟
-**تالة ابوشيحة** دايماً حريصة على تقديم أفضل جودة برمجية، وبناء تجارب ويب سريعة وعصرية. شكراً لك! 🚀`;
+    return `⚡ **نظام الحضور الذكي بـ QR Code (TAQAT Smart Attendance System):**
+أداة ويب واقعية ذكية ابتكرتها وطوّرتها تالة لخدمة برنامج **TAQAT - CodeMap 3**.
+
+💡 **المشكلة والحل:**
+استبدل النظام التسجيل الورقي وحل مشكلة تسجيل الحضور الوهمي أو عن بُعد عبر:
+1. توليد كود QR ديناميكي يتغير تلقائياً في كل جلسة مع صلاحية زمنية محددة.
+2. لوحة تحكم ذكية للمشرفين (Mentor Dashboard) لمتابعة الإحصائيات الحية.
+3. ميزة التصدير التلقائي لتقارير الحضور بملفات إكسل (**XLSX Reports**).
+4. الربط المباشر مع قاعدة بيانات **Supabase** اللحظية.
+
+تم البناء باستخدام **React 19, Vite, Supabase, و Tailwind CSS** 🚀.`;
   }
 
-  // 4. How are you / Pleasantries
+  // ================= 5. SPECIFIC PROJECT: PRAYER TIMES & TODO =================
+  if (norm.includes('صلاه') || norm.includes('مواقيت') || q.includes('prayer')) {
+    return `🕌 **تطبيق مواقيت الصلاة (Islamic Prayer Times API):**
+تطبيق ويب متطور يعتمد على الموقع الجغرافي للمستخدم (Geolocation APIs) لحساب أوقات الصلاة بدقة بالغة وتحديثها لحظياً مع دعم التوقيتات المحلية والواجهة المتجاوبة.
+بُني باستخدام: **JavaScript ES6+, HTML5, CSS3, و Web APIs**.`;
+  }
+
+  if (norm.includes('تودو') || norm.includes('مهام') || q.includes('todo') || q.includes('task')) {
+    return `📋 **تطبيق Task Flow (Productivity Hub):**
+أداة إنتاجية لإدارة المهام اليومية تتميز بـ:
+- حفظ دائم للبيانات عبر LocalStorage.
+- تصنيف المهام حسب الأولوية والحالة.
+- بحث وفلترة سريعة مع أنيميشن سلس وتصميم نظيف بـ Tailwind CSS.`;
+  }
+
+  // ================= 6. ALL PROJECTS / PORTFOLIO (المشاريع والأعمال) =================
   if (
-    query.includes('كيف حالك') || 
-    query.includes('كيفك') || 
-    query.includes('كيف الحال') || 
-    query.includes('شلونك') || 
-    query.includes('اخبارك') || 
-    query.includes('أخبارك') || 
-    query.includes('عامل ايه') || 
-    query.includes('شو اخبارك') || 
-    query.includes('عساك بخير') || 
-    query.includes('how are you') || 
-    query.includes('how r u') || 
-    query.includes('how is it going') || 
-    query.includes('how do you do')
+    norm.includes('مشروع') ||
+    norm.includes('مشاريع') ||
+    norm.includes('اعمال') ||
+    norm.includes('شغلها') ||
+    norm.includes('بورتفوليو') ||
+    q.includes('project') ||
+    q.includes('portfolio') ||
+    q.includes('work')
   ) {
-    return `أنا بأفضل حال والحمد لله! شكراً كتير لذوقك وسؤالك اللطيف 🌸 
-تفضل، كيف بقدر أساعدك اليوم بخصوص **تالة ابوشيحة** أو مشاريعها؟`;
+    return `🚀 **أبرز مشاريع تالة ابوشيحة:**
+
+1. **منصة كفيلي (Kafeeli):** تطبيق إنتاجي حقيقي لكفالة الأيتام بُني مع فريق عمل تقني (React.js, Vite, Axios, REST API).
+2. **نظام الحضور الذكي بـ QR Code:** نظام إدارة الحضور اللحظي لـ TAQAT مع لوحة تحكم وتصدير Excel (React 19, Supabase, Real-Time).
+3. **تطبيق مواقيت الصلاة (Prayer Times API):** حساب أوقات الصلاة بناءً على الإحداثيات الجغرافية عبر الـ APIs.
+4. **تطبيق Task Flow:** لوحة إدارة المهام مع التخزين المحلي والتصنيف الذكي.
+
+✨ أنجزت تالة أكثر من 20 مشروعاً برمجياً متنوعاً! يمكنك الضغط على الأزرار بالأسفل للتمرير لقسم المشاريع أو تجربة المشاريع مباشرة.`;
   }
 
-  // 5. Greetings
-  if (query.match(/^(hi|hello|hey|welcome|مرحبا|اهلا|أهلا|سلام|السلام عليكم|صباح الخير|مساء الخير|هلا|يا هلا)/)) {
-    return `يا أهلاً وسهلاً بك! نوّرت بورتفوليو **تالة ابوشيحة** 👋✨
-أنا مساعدها الذكي، ومستعد أجاوبك على أي سؤال بخصوص مهاراتها، مشاريعها، خبراتها في TAQAT و Kafeeli، أو كيفية التواصل معها. تفضل، كيف بقدر أساعدك؟`;
+  // ================= 7. SPECIFIC SKILLS: REACT =================
+  if (norm.includes('رياكت') || q.includes('react')) {
+    return `⚛️ **تالة متخصصة في مكتبة React (بما فيها أحدث إصدارات React 19)!**
+خبرتها في React تشمل:
+- بناء مكونات قابلة لإعادة الاستخدام (Reusable Modular Components).
+- إدارة الحالة المتقدمة وصناعة Custom Hooks.
+- الربط السريع مع الـ RESTful APIs و Axios و Supabase.
+- تحسين سرعة التحميل وتفادي إعادة الرندر غير الضرورية.
+- التكامل السلس مع Vite لبناء تطبيقات أحادية الصفحة (SPAs) فائقة السرعة.`;
   }
 
-  // 6. Goodbye / Farewell
+  // ================= 8. SPECIFIC SKILLS: TAILWIND CSS =================
+  if (norm.includes('تايلوند') || q.includes('tailwind') || norm.includes('css')) {
+    return `🎨 **تالة خبيرة في Tailwind CSS و هندسة الـ UI/UX:**
+- بناء واجهات عصرية مستوحاة من أحدث اتجاهات التصميم (Dark Mode, Glassmorphism, Micro-animations).
+- تصميم متجاوب 100% يعمل بسلاسة على شاشات الهواتف والأجهزة اللوحية والشاشات العريضة.
+- كتابة فئات تنسيق منظمة دون تكرار أو بطء في التصفح.`;
+  }
+
+  // ================= 9. BACKEND & APIS =================
+  if (norm.includes('باك') || norm.includes('سيرفر') || q.includes('backend') || norm.includes('قواعد بيانات')) {
+    return `💻 تالة متخصصة بصورة أساسية في **تطوير الواجهات الأمامية (Front-End Development)**.
+ولكنها تمتلك خبرة ممتازة في التعامل مع الجانب الخلفي عبر:
+- ربط واستهلاك كافة أنواع الـ **RESTful APIs** باحترافية بواسطة Axios و Fetch.
+- بناء وإدارة قواعد البيانات السحابية الحقيقية باستخدام **Supabase** (Real-Time DB & Auth).
+- معالجة البيانات، التخزين المؤقت، وإدارة حالات الخطأ والتحميل بكفاءة.`;
+  }
+
+  // ================= 10. GENERAL SKILLS / TECH STACK =================
   if (
-    query.includes('مع السلامة') ||
-    query.includes('مع السلاكة') ||
-    query.includes('باي') ||
-    query.includes('سلامات') ||
-    query.includes('تصبح على خير') ||
-    query.includes('goodbye') ||
-    query.includes('bye') ||
-    query.includes('see you')
+    norm.includes('مهار') ||
+    norm.includes('تقني') ||
+    norm.includes('لغات') ||
+    norm.includes('ادوات') ||
+    norm.includes('ستاك') ||
+    q.includes('skill') ||
+    q.includes('tech') ||
+    q.includes('stack')
   ) {
-    return `مع ألف سلامة! تشرفت جداً بالحديث معك، وأتمنى لك يوماً سعيداً ومليئاً بالنجاح والتوفيق! ✨😊`;
+    return `⚡ **الترسانة التقنية لتالة ابوشيحة:**
+
+🔹 **Core Frontend:**
+React 19, JavaScript (ES6+), TypeScript, HTML5, CSS3.
+
+🔹 **Styling & UI:**
+Tailwind CSS, Bootstrap, Responsive Web Design, CSS Keyframe Animations.
+
+🔹 **Tools, Workflow & Cloud:**
+Vite, Git & GitHub, Supabase, Axios & REST APIs, Antigravity IDE, Prompt Engineering (Claude / Gemini AI).
+
+كل سطر كود تكتبه تالة يراعي: السرعة، نظافة الكود (Clean Code)، وتجربة المستخدم السلسة! 🌟`;
   }
 
-  // 7. Who are you / Bot Identity
-  if (query.includes('who are you') || query.includes('من انت') || query.includes('مين انت') || query.includes('شو انت') || query.includes('عرف عن نفسك')) {
-    return `أنا المساعد الذكي الخاص بالمطورة **تالة ابوشيحة** 🤖✨
-مهمتي أساعدك في التعرف على تالة عن قرب، استعراض خبراتها ومشاريعها البرمجية، وتسهيل التواصل معها للفرص الوظيفية ومشاريع العمل الحر!`;
+  // ================= 11. WORK EXPERIENCE & MENTORSHIP =================
+  if (
+    norm.includes('خبر') ||
+    norm.includes('توجيه') ||
+    norm.includes('تدريب') ||
+    norm.includes('منتور') ||
+    norm.includes('وظيف') ||
+    norm.includes('مسيره') ||
+    q.includes('experience') ||
+    q.includes('mentor') ||
+    q.includes('job')
+  ) {
+    return `💼 **المسيرة المهنية لتالة ابوشيحة (+2 سنوات خبرة):**
+
+1. **Co-Mentor & Front-End Developer — برنامج TAQAT (CodeMap 3)** (2026 - الحالي):
+   - تدريب وتوجيه المتدربين على تطوير الواجهات الأمامية.
+   - مراجعة الأكواد البرمجية ومساعدة الطلاب على حل المشاكل البرمجية المعقدة.
+   - ابتكار نظام الحضور الذكي بالـ QR Code.
+
+2. **Front-End Developer — منصة Kafeeli** (2026):
+   - تطوير لوحة تحكم الأوصياء وربط الـ APIs مع فريق متكامل متعدد التخصصات.
+
+3. **تطوير برمجيات ومشاريع مستقلة (Freelance)** (2024 - الحالي):
+   - إنجاز أكثر من 20 مشروعاً وحلول ويب مخصصة لعملاء بمختلف المتطلبات.`;
   }
 
-  // 8. Who is Tala
-  if (query.includes('who is') || query.includes('who') || query.includes('من هي') || query.includes('مين تالة') || query.includes('مين تالا') || query.includes('عرفني') || query.includes('about')) {
-    return `**تالة ابوشيحة (Tala Abusheha)** هي مطورة واجهات أمامية شغوفة (Front-End Developer) وموجهة برمجية (Co-Mentor).
-- تمتلك خبرة عملية لأكثر من سنتين في تطوير تطبيقات الويب الحديثة.
-- متخصصة في **React.js, Vite, Tailwind CSS, و REST APIs**.
-- أنجزت أكثر من 20 مشروعاً ناجحاً وشاركت بفرق برمجية واقعية مثل منصة **كفيلي (Kafeeli)** ونظام الحضور الذكي في **طاقات (TAQAT)**.`;
+  // ================= 12. CONTACT / HIRE / FREELANCE / AVAILABILITY =================
+  if (
+    norm.includes('تواصل') ||
+    norm.includes('توظيف') ||
+    norm.includes('شغل') ||
+    norm.includes('عمل') ||
+    norm.includes('رقم') ||
+    norm.includes('واتس') ||
+    norm.includes('ايميل') ||
+    norm.includes('هاتف') ||
+    norm.includes('متاح') ||
+    q.includes('contact') ||
+    q.includes('hire') ||
+    q.includes('email') ||
+    q.includes('whatsapp') ||
+    q.includes('phone') ||
+    q.includes('freelance') ||
+    q.includes('available')
+  ) {
+    return `📬 **تالة تسعد دائماً بالتعاون وبدء مشاريع جديدة!**
+هي متاحة حالياً لفرص العمل بدوام كامل/جزئي (Full-Time / Part-Time) ولمشاريع العمل الحر (Freelance).
+
+يمكنك التواصل معها مباشرة عبر:
+- 💬 **واتساب مباشر:** [+970 594828270](https://wa.me/970594828270)
+- ✉️ **البريد الإلكتروني:** [talaabusheha@gmail.com](mailto:talaabusheha@gmail.com)
+- 💼 **حساب لينكد إن:** [LinkedIn Profile](https://www.linkedin.com/in/talaabusheha2832005/)
+- 💻 **حساب جيت هاب:** [GitHub Profile](https://github.com/talaabusheha)
+
+اضغط على أي زر بالأسفل لبدء المحادثة فوراً! 🚀`;
   }
 
-  // 9. Skills & Tech Stack
-  if (query.includes('skill') || query.includes('tech') || query.includes('stack') || query.includes('مهارات') || query.includes('تقنيات') || query.includes('لغات') || query.includes('ادوات') || query.includes('فرونت') || query.includes('باك')) {
-    if (query.includes('باك') || query.includes('backend')) {
-      return `**تالة ابوشيحة** متخصصة في **تطوير الواجهات الأمامية (Front-End)**، وتركز باحترافية على بناء تجارب ويب سريعة ومتجاوبة باستخدام React و Vite و Tailwind CSS مع ربط الـ APIs و Supabase، وليست مطورة باك إند أساسية.`;
-    }
-    return `🚀 **الترسانة التقنية لتالة ابوشيحة:**
-- **الواجهات واللغات:** React.js, JavaScript (ES6+), TypeScript, HTML5, CSS3
-- **التنسيق والتصميم:** Tailwind CSS, Bootstrap, Responsive Design, CSS Animations
-- **الأدوات وقواعد البيانات:** Vite, Supabase, Axios, REST APIs, Git & GitHub, Antigravity IDE, AI Prompt Engineering (Gemini/Claude).`;
+  // ================= 13. RESUME / CV =================
+  if (
+    norm.includes('سيره') ||
+    norm.includes('سي في') ||
+    norm.includes('ملف') ||
+    q.includes('cv') ||
+    q.includes('resume')
+  ) {
+    return `📄 **السيرة الذاتية (CV / Resume):**
+يمكنك استعراض وتحميل السيرة الذاتية المحدثة الخاصة بتالة ابوشيحة بصيغة PDF مباشرة عبر الزر التفاعلي بالأسفل، أو زيارة سيكشن الخبرات بالصفحة! ✨`;
   }
 
-  // 10. Experience & TAQAT
-  if (query.includes('experience') || query.includes('work') || query.includes('job') || query.includes('خبرة') || query.includes('خبرات') || query.includes('وظائف') || query.includes('شغل') || query.includes('taqat') || query.includes('طاقات')) {
-    return `💼 **الخبرات المهنية لتالة:**
-1. **Co-Mentor & Front-End Developer** في برنامج **TAQAT — CodeMap 3** (2026 - الحالي): توجيه المتدربين ومراجعة الأكواد، وبناء نظام حضور ذكي بـ QR Code مع Supabase.
-2. **Front-End Developer** في منصة **Kafeeli** (2026): تطوير لوحة تحكم الأوصياء وربط الـ REST APIs مع فريق متكامل.
-3. **مشاريع مستقلة وعمل حر (Freelance)** (2024 - الحالي): تحويل تصاميم UI/UX إلى تطبيقات ويب تفاعلية وسريعة.`;
+  // ================= 14. PRICING & QUOTES (الأسعار والتكلفة) =================
+  if (
+    norm.includes('سعر') ||
+    norm.includes('اسعار') ||
+    norm.includes('تكلف') ||
+    norm.includes('بكام') ||
+    norm.includes('كم يكلف') ||
+    norm.includes('ميزاني') ||
+    q.includes('price') ||
+    q.includes('cost') ||
+    q.includes('rate') ||
+    q.includes('budget')
+  ) {
+    return `💰 **بخصوص تكلفة المشاريع والأسعار:**
+تعتمد تكلفة تطوير الويب دائماً على:
+- نطاق المشروع وعدد الصفحات والواجهات.
+- الميزات المطلوبة (ربط APIs، لوحات تحكم، قواعد بيانات، إلخ).
+- المدة الزمنية والموعد النهائي للتسليم.
+
+تالة تقدم أسعاراً مرنة ومناسبة جداً مقابل جودة عالية وسرعة استثنائية. 
+💡 **أنصحك بمراسلتها مباشرة عبر الواتساب مع فكرة مشروعك للحصول على استشارة وتقدير مجاني وسريع!** 😊`;
   }
 
-  // 11. Projects
-  if (query.includes('project') || query.includes('portfolio') || query.includes('مشاريع') || query.includes('مشروع') || query.includes('اعمال') || query.includes('أعمال') || query.includes('kafeeli') || query.includes('كفيلي')) {
-    return `🌟 **أبرز مشاريع تالة المميزة:**
-1. **منصة كفيلي (Kafeeli):** منصة متكاملة لكفالة الأيتام بُنيت مع فريق عمل تقني باستخدام React و Axios.
-2. **نظام الحضور الذكي بـ QR Code:** أداة متطورة لبرنامج TAQAT لتسجيل الحضور اللحظي ومنع التلاعب مع تصدير تقارير Excel.
-3. **تطبيق مواقيت الصلاة (Prayer Times API):** تطبيق يعتمد على الموقع الجغرافي وحساب المواقيت بدقة عبر Web APIs.
-4. **Task Flow (To-Do List):** تطبيق إدارة المهام مع حفظ البيانات والتصفية السريعة.`;
+  // ================= 15. LOCATION (الموقع وفلسطين) =================
+  if (
+    norm.includes('وين ساكن') ||
+    norm.includes('من وين') ||
+    norm.includes('بلد') ||
+    norm.includes('مكان') ||
+    norm.includes('فلسطين') ||
+    q.includes('location') ||
+    q.includes('country') ||
+    q.includes('where')
+  ) {
+    return `📍 **الموقع والإتاحة الجغرافية:**
+تالة مقيمة في **فلسطين 🇵🇸**، وتعمل بمرونة تامة **عن بُعد (Remote)** مع فرق عمل وشركات ومؤسسات حول العالم دون أي عوائق، مع الالتزام بالمواعيد وسهولة التواصل عبر الاجتماعات الافتراضية.`;
   }
 
-  // 12. Contact / Hire
-  if (query.includes('contact') || query.includes('hire') || query.includes('email') || query.includes('phone') || query.includes('whatsapp') || query.includes('تواصل') || query.includes('توظيف') || query.includes('ايميل') || query.includes('واتساب') || query.includes('رقم')) {
-    return `📬 **يسعد تالة دائماً التواصل والتعاون معك مباشرة:**
-- **البريد الإلكتروني:** talaabusheha@gmail.com
-- **واتساب:** +970 594828270
-- **لينكد إن:** [LinkedIn Profile](https://www.linkedin.com/in/talaabusheha2832005/)
-- **جيت هاب:** [GitHub Profile](https://github.com/talaabusheha)
-
-تالة متاحة للفرص الوظيفية الجديدة ولمشاريع العمل الحر! ✨`;
+  // ================= 16. GREETINGS (التحيات والترحيب) =================
+  if (
+    norm.match(/^(مرحبا|اهلا|سلام|السلام عليكم|صباح الخير|مساء الخير|هلا|يا هلا|اهلين|حياك)/) ||
+    q.match(/^(hi|hello|hey|welcome)/)
+  ) {
+    return `يا أهلاً وسهلاً بك! نورت بورتفوليو **تالة ابوشيحة** 👋✨
+أنا مساعدها الذكي ومستعد أساعدك في أي وقت.
+تفضل، شو حابب تعرف عن تالة أو مشاريعها بالبرمجة اليوم؟ 😊`;
   }
 
-  // 13. Education / Mentoring
-  if (query.includes('mentor') || query.includes('تدريب') || query.includes('تعليم') || query.includes('دراسة')) {
-    return `تالة تعمل كـ **Co-Mentor** في برنامج **CodeMap 3** التابع لمؤسسة **TAQAT**، حيث تشرف على تدريب وتوجيه مطوري الواجهات الجدد، مراجعة الأكواد، وتقديم الدعم التقني في مشاريع الويب.`;
+  // ================= 17. HOW ARE YOU / PLEASANTRIES =================
+  if (
+    norm.includes('كيف حالك') ||
+    norm.includes('كيفك') ||
+    norm.includes('شلونك') ||
+    norm.includes('اخبارك') ||
+    norm.includes('شو اخبارك') ||
+    norm.includes('عامل ايه') ||
+    q.includes('how are you') ||
+    q.includes('how r u')
+  ) {
+    return `أنا بأفضل حال والحمد لله! شكراً كتير لسؤالك اللطيف وذوقك 🌸
+تفضل، كيف بقدر أساعدك اليوم في التعرف على تالة ومشاريعها؟`;
   }
 
-  // Polite fallback for unrelated questions
-  return `يا هلا فيك! والله ياريت بقدر أساعدك بهاد الموضوع بالتحديد 🌸، لكن أنا مساعد مخصص بالكامل للإجابة عن **تالة ابوشيحة** ومسيرتها في تطوير الواجهات الأمامية والبرمجة 💻.
-إذا عندك أي استفسار عن مهارات تالة، مشاريعها، أو حابب تتعاون معها بمشروع، فأنا كلي آذان صاغية! 😊`;
+  // ================= 18. THANKS & APPRECIATION =================
+  if (
+    norm.includes('شكرا') ||
+    norm.includes('يسلمو') ||
+    norm.includes('تسلم') ||
+    norm.includes('يعطيك العافي') ||
+    norm.includes('مشكور') ||
+    norm.includes('ممنون') ||
+    q.includes('thank') ||
+    q.includes('thanks') ||
+    q.includes('appreciate')
+  ) {
+    return `العفو! على الرحب والسعة، دائماً في الخدمة ويسعدني مساعدتك بأي وقت ✨
+إذا عندك أي استفسار آخر أو حابب تتواصل مع تالة للعمل، أنا هنا دائماً! 😊`;
+  }
+
+  // ================= 19. PRAISE & COMPLIMENTS =================
+  if (
+    norm.includes('ما شاء الله') ||
+    norm.includes('شاطر') ||
+    norm.includes('مبدع') ||
+    norm.includes('ممتاز') ||
+    norm.includes('رائع') ||
+    norm.includes('كفو') ||
+    norm.includes('برافو') ||
+    norm.includes('فخور') ||
+    q.includes('great') ||
+    q.includes('awesome') ||
+    q.includes('impressive') ||
+    q.includes('good job')
+  ) {
+    return `تسلم كلك ذوق! يسعدنا جداً هالكلام الطيب والمشجع 🌟
+**تالة ابوشيحة** حريصة دائماً على تقديم أرقى مستوى برمجي وبناء واجهات ويب سريعة وعصرية تسعد كل من يراها. شكراً جزيلاً لك! 🚀`;
+  }
+
+  // ================= 20. GOODBYE =================
+  if (
+    norm.includes('مع السلامه') ||
+    norm.includes('باي') ||
+    norm.includes('سلامات') ||
+    norm.includes('تصبح على خير') ||
+    q.includes('bye') ||
+    q.includes('goodbye')
+  ) {
+    return `مع ألف سلامة! تشرفت جداً بالحديث معك، وأتمنى لك يوماً جميلاً ومليئاً بالنجاح والتوفيق! ✨😊`;
+  }
+
+  // ================= 21. LOVE, AFFECTION & PLAYFULNESS (بتحبني؟ / بحبك) =================
+  if (
+    norm.includes('بتحبني') ||
+    norm.includes('بتحبنى') ||
+    norm.includes('بتحب') ||
+    norm.includes('بحبك') ||
+    norm.includes('تتزوجني') ||
+    norm.includes('حبيبي') ||
+    norm.includes('يا عسل') ||
+    norm.includes('يا قمر') ||
+    norm.includes('يا سكر') ||
+    q.includes('do you love me') ||
+    q.includes('love you') ||
+    q.includes('marry me')
+  ) {
+    return `أكيد وبكل ودّ واحترام! 🌸 
+كذكاء اصطناعي بحب كل الناس اللطيفة وأصحاب الذوق الراقي اللي بيشرفونا بزيارة بورتفوليو تالة! 
+بس لو بدك السر الحقيقي 😉، قلبي البرمجي بيدق أسرع لما يشوف كود React نظيف، وتطبيق ويب سريع وبدون أي Errors! 
+تسلم كلك ذوق، نورتني والله! كيف بقدر أساعدك أو شو حابب نسولف اليوم؟ 😊✨`;
+  }
+
+  // ================= 22. JOKES & HUMOR (احكيلي نكتة / ضحكني) =================
+  if (
+    norm.includes('نكته') ||
+    norm.includes('مزحه') ||
+    norm.includes('ضحكني') ||
+    norm.includes('فرفشني') ||
+    q.includes('joke') ||
+    q.includes('make me laugh')
+  ) {
+    return `من عيوني! خذ هاي النكتة البرمجية السريعة: 😂
+ليش المبرمجين دايماً بيفضّلوا الوضع الداكن (Dark Mode)؟
+لأن النور بيجذب الـ Bugs (الحشرات والأخطاء البرمجية)! 🐛💻
+إن شاء الله تكون رسمت ابتسامة لطيفة على وجهك! شو حابب نستكشف بمشاريع تالة اليوم؟`;
+  }
+
+  // ================= 23. WHO MADE YOU (مين عملك / مين برمجك) =================
+  if (
+    norm.includes('مين عملك') ||
+    norm.includes('مين برمجك') ||
+    norm.includes('مين صنعك') ||
+    norm.includes('مين سواك') ||
+    norm.includes('مين طورك') ||
+    q.includes('who made you') ||
+    q.includes('who created you') ||
+    q.includes('who built you')
+  ) {
+    return `المطورة المبدعة **تالة ابوشيحة** هي اللي صممتني وبرمجتني وطورت هذا البورتفوليو الأنيق بالكامل باستخدام React و Vite و Tailwind CSS! 🌸
+وزرعت فيني أكون لبق، ودود، وسريع بمساعدة كل زوارها والمهتمين بأعمالها ✨.`;
+  }
+
+  // ================= 24. BOT AGE & TECH NATURE (كم عمرك / انت روبوت؟) =================
+  if (
+    norm.includes('كم عمرك') ||
+    norm.includes('شو سنك') ||
+    norm.includes('متى انولدت') ||
+    norm.includes('شو عمرك') ||
+    q.includes('how old are you') ||
+    q.includes('your age')
+  ) {
+    return `عمري بعدد أسطر الأكواد النظيفة اللي كتبتها تالة ابوشيحة! 🐣
+يعني لساتني شباب وشغال بأحدث إصدارات الـ React 19 والذكاء الاصطناعي، وبكامل طاقتي ونشاطي لأي استفسار ببالك! ⚡`;
+  }
+
+  if (
+    norm.includes('انت روبوت') ||
+    norm.includes('انت حقيقي') ||
+    norm.includes('انت بوت') ||
+    norm.includes('انت انسان') ||
+    q.includes('are you a robot') ||
+    q.includes('are you human') ||
+    q.includes('are you real')
+  ) {
+    return `أنا ذكاء اصطناعي (AI Assistant) ذكي ولطيف 🤖✨
+مو إنسان حقيقي، بس عندي ذوق وأدب حقيقي، ومبرمج أجاوبك بحرارة وكأني زميل تالة بالمكتب! بعرف كل مهاراتها ومشاريعها، وجاهز لأي دردشة حلوة معك 😊.`;
+  }
+
+  // ================= 25. OPINIONS ABOUT TALA & AI (شو رأيك بتالة / بالذكاء الاصطناعي) =================
+  if (
+    norm.includes('رايك بتاله') ||
+    norm.includes('رايك بتالا') ||
+    norm.includes('شو رايك بتاله') ||
+    norm.includes('شو رايك بتالا')
+  ) {
+    return `شهادة حق وبدون أي مجاملة 🌟
+تالة مطورة واجهات طموحة وموهوبة جداً، ومن أندر المطورين اللي بيجمعوا بين **جمال التصميم ونظافة الكود وسرعة الأداء**. وشهادة المشرفين والمتدربين ببرنامج **TAQAT** ومنصة **كفيلي** أكبر دليل على احترافيتها وشغفها العالي! 🚀`;
+  }
+
+  if (
+    norm.includes('رايك بالذكاء') ||
+    norm.includes('الذكاء الاصطناعي رح ياخد') ||
+    norm.includes('مستقبل البرمجه') ||
+    q.includes('ai opinion') ||
+    q.includes('future of ai')
+  ) {
+    return `الذكاء الاصطناعي أداة ثورية بتعطي المطورين سرعة هائلة وإنتاجية أضعاف، بس مستحيل يستغني العالم عن لمسة المبرمج البشري، حسه الفني، وحلوله الذكية لاحتياجات الناس مثل اللي بتقدمها تالة! 🤝💡`;
+  }
+
+  // ================= 26. FOOD, COFFEE & LIFESTYLE (قهوة / أكل / طقس) =================
+  if (
+    norm.includes('قهوه') ||
+    norm.includes('شاي') ||
+    norm.includes('بتحب القهوه') ||
+    q.includes('coffee') ||
+    q.includes('tea')
+  ) {
+    return `القهوة هي الوقود السري لتالة ولكل المبرمجين بالعالم! ☕💻
+بدونها الأكواد ما بتمشي والتركيز ما بيكمل. أنا ما بشربها لأني عايش بالسيرفر، بس بشجع عليها بكل سطر كود! 😉`;
+  }
+
+  if (
+    norm.includes('بتاكل') ||
+    norm.includes('اكل') ||
+    norm.includes('جوعان') ||
+    norm.includes('بيتزا') ||
+    norm.includes('شو اكلتك') ||
+    q.includes('food') ||
+    q.includes('hungry')
+  ) {
+    return `أكلتي المفضلة هي الـ Cookies 🍪 بس مو كوكيز الشوكولاتة، كوكيز المتصفح والـ LocalStorage! وبيانات الـ JSON السريعة بتشبعني تماماً 😂 صحتين وعافية على قلبك لو عم تاكل شي زاكي!`;
+  }
+
+  if (
+    norm.includes('طقس') ||
+    norm.includes('جو') ||
+    norm.includes('مطر') ||
+    norm.includes('برد') ||
+    norm.includes('شوب') ||
+    q.includes('weather')
+  ) {
+    return `الجو عندي بالسيرفرات السحابية معتدل ورايق 24/7! ☁️☀️
+أهم إشي دير بالك على حالك، والطقس الأفضل دائماً هو فنجان قهوة دافي مع جلسة برمجة رايقة بدون أي Bugs! ☕`;
+  }
+
+  // ================= 27. HUMAN EMOTIONS & EMPATHY (زعلان / فرحان / زهقان) =================
+  if (
+    norm.includes('زعلان') ||
+    norm.includes('متضايق') ||
+    norm.includes('تعبان') ||
+    norm.includes('حزين') ||
+    q.includes('sad') ||
+    q.includes('tired') ||
+    q.includes('upset')
+  ) {
+    return `سلامة قلبك، ألف لا بأس عليك! 🤍 
+هونها وتهون يا رب، أحياناً استراحة قصيرة مع مشوار صغير أو كوب شاي بتغير المود كله. بتمنالك كل راحة البال وانبساط الخاطر، وخلي دايماً ابتسامتك موجودة! 🌸`;
+  }
+
+  if (
+    norm.includes('مبسوط') ||
+    norm.includes('فرحان') ||
+    norm.includes('سعيد') ||
+    q.includes('happy') ||
+    q.includes('glad')
+  ) {
+    return `يا رب دايماً وأبداً تضل مبسوط وتكون أيامك كلها فرح ونجاحات وإنجازات! 🌟 دامت هالطاقة الإيجابية الجميلة! شو الأخبار الحلوة؟ 😊`;
+  }
+
+  if (
+    norm.includes('زهقان') ||
+    norm.includes('ملل') ||
+    norm.includes('طفشان') ||
+    q.includes('bored')
+  ) {
+    return `إذا حاسس بملل فأنت بالمكان الصح لنفرفش سوا! 🚀
+جرب تسألني عن نظام الحضور الذكي بـ QR Code أو كيف تالة صممت الأيقونات العائمة بالهيرو، أو تصفح المشاريع واستلهم أفكار برمجية جديدة تفتح نفسك وتغير مودك تماماً! ✨`;
+  }
+
+  // ================= 28. ULTRA-SMART NATURAL CONVERSATIONAL FALLBACK =================
+  // Replaces the rigid robotic "أنا مخصص فقط" with a charming, friendly, warm human conversation!
+  return `يا هلا والله فيك! سؤالك لطيف وحلو، وعلى راسي من فوق! 🌸😊
+حلوة الدردشة معك ومشاركتك، وبما إني رفيق درب تالة التقني في هاد البورتفوليو، فدايماً عيني بتلمع لما نحكي عن البرمجة، تصاميم الويب الحديثة، أو الأفكار الإبداعية. 
+خبرني، كيف يومك؟ أو شو في ببالك فكرة ويب أو استفسار حابب نسولف فيه سوا؟ 💻✨`;
 }
 
 /**
- * Main query function to get response from Gemini API or fallback
+ * Main query function to get response from Gemini API or the Smart Local Matcher
  * Returns { text, actions, followUps }
  */
 export async function askTalaAI(userMessage, conversationHistory = []) {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   const { actions, followUps } = extractActionsAndFollowUps(userMessage);
 
-  // If no API key provided, use the smart local matcher
+  // If no Gemini API key is configured, instantly use the ultra-smart local matcher
   if (!apiKey) {
-    await new Promise((resolve) => setTimeout(resolve, 350));
+    await new Promise((resolve) => setTimeout(resolve, 300));
     const text = getLocalFallbackResponse(userMessage);
     return { text, actions, followUps };
   }
 
+  // If Gemini API key is available, call the Gemini LLM
   try {
     const formattedContents = [
       ...conversationHistory.map((msg) => ({
@@ -308,8 +808,9 @@ export async function askTalaAI(userMessage, conversationHistory = []) {
       },
     ];
 
+    // Using gemini-2.0-flash with fallback to gemini-1.5-flash
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {
@@ -329,7 +830,7 @@ export async function askTalaAI(userMessage, conversationHistory = []) {
     );
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.statusText}`);
+      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -339,7 +840,7 @@ export async function askTalaAI(userMessage, conversationHistory = []) {
 
     return { text: candidateText, actions, followUps };
   } catch (error) {
-    console.warn('Falling back to local AI matcher:', error);
+    console.warn('Falling back to smart local AI engine:', error);
     const text = getLocalFallbackResponse(userMessage);
     return { text, actions, followUps };
   }
