@@ -20,7 +20,11 @@ export default function ProjectCard({ image, title, badge, description, tags, li
         >
           <img
             src={image}
-            alt={title}
+            alt={`${title} - Front-End Project by Tala Abusheha`}
+            loading="lazy"
+            decoding="async"
+            width="600"
+            height="340"
             className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
           />
           {badge && (

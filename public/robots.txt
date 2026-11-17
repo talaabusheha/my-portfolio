@@ -1,5 +1,24 @@
 User-agent: *
 Allow: /
 
+# Explicit rules for Search & AI Engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
 # Sitemap
-Sitemap: /sitemap.xml
+Sitemap: https://tala-abusheha.vercel.app/sitemap.xml

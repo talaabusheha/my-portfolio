@@ -346,7 +346,7 @@ export default function Hero() {
               isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
-            React Front-End Developer<span className="text-sky-500">.</span>
+            <span className="sr-only">Tala Abusheha — </span>React Front-End Developer<span className="text-sky-500">.</span>
           </h1>
 
           {/* Bio Description / Tagline */}

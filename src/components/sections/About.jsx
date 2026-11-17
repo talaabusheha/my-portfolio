@@ -42,7 +42,11 @@ export default function About() {
               >
                 <img
                   src={logo}
-                  alt="Tala Abu Sheha"
+                  alt="Tala Abusheha - Front-End Engineer & Co-Mentor Profile"
+                  loading="lazy"
+                  decoding="async"
+                  width="320"
+                  height="320"
                   className="w-full h-full object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
