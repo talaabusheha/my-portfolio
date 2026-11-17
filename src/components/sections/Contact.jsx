@@ -30,15 +30,15 @@ export default function Contact() {
         <div className="text-center mb-14">
           <h2
             className={`text-3xl md:text-4xl font-extrabold tracking-tight mb-3 ${
-              isDarkMode ? 'text-white' : 'text-zinc-900'
+              isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
             Get In Touch
           </h2>
-          <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto rounded-full mb-6"></div>
+          <div className="w-12 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto rounded-full mb-6"></div>
           <p
             className={`text-base max-w-xl mx-auto leading-relaxed ${
-              isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+              isDarkMode ? 'text-zinc-400' : 'text-slate-600'
             }`}
           >
             Have a project in mind, an open frontend role, or want to collaborate? Reach out directly via email, WhatsApp, or LinkedIn.
@@ -52,10 +52,10 @@ export default function Contact() {
             href={SOCIAL_LINKS.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group flex items-center gap-4 p-5 border rounded-2xl transition-all duration-200 hover:-translate-y-0.5 shadow-sm ${
+            className={`group flex items-center gap-4 p-5 border rounded-2xl transition-all duration-200 hover:-translate-y-0.5 shadow-xs ${
               isDarkMode
-                ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/80'
-                : 'bg-white border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50'
+                ? 'bg-zinc-900/40 border-sky-950/60 hover:border-sky-700 hover:bg-zinc-900/80'
+                : 'bg-white border-slate-200 hover:border-sky-300 hover:bg-sky-50/40'
             }`}
           >
             <span className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
@@ -64,14 +64,14 @@ export default function Contact() {
             <div className="text-left">
               <div
                 className={`font-semibold text-sm ${
-                  isDarkMode ? 'text-zinc-100' : 'text-zinc-900'
+                  isDarkMode ? 'text-zinc-100' : 'text-[#0f3b57]'
                 }`}
               >
                 WhatsApp
               </div>
               <div
                 className={`text-xs mt-0.5 ${
-                  isDarkMode ? 'text-zinc-400' : 'text-zinc-500'
+                  isDarkMode ? 'text-zinc-400' : 'text-slate-500'
                 }`}
               >
                 +970 594828270
@@ -82,27 +82,27 @@ export default function Contact() {
           {/* Email with One-Click Copy */}
           <div
             onClick={handleCopyEmail}
-            className={`group flex items-center justify-between p-5 border rounded-2xl transition-all duration-200 hover:-translate-y-0.5 shadow-sm cursor-pointer ${
+            className={`group flex items-center justify-between p-5 border rounded-2xl transition-all duration-200 hover:-translate-y-0.5 shadow-xs cursor-pointer ${
               isDarkMode
-                ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/80'
-                : 'bg-white border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50'
+                ? 'bg-zinc-900/40 border-sky-950/60 hover:border-sky-700 hover:bg-zinc-900/80'
+                : 'bg-white border-slate-200 hover:border-sky-300 hover:bg-sky-50/40'
             }`}
           >
             <div className="flex items-center gap-4">
-              <span className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
+              <span className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-500 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
                 <MdMarkEmailUnread />
               </span>
               <div className="text-left">
                 <div
                   className={`font-semibold text-sm ${
-                    isDarkMode ? 'text-zinc-100' : 'text-zinc-900'
+                    isDarkMode ? 'text-zinc-100' : 'text-[#0f3b57]'
                   }`}
                 >
                   Email Address
                 </div>
                 <div
                   className={`text-xs mt-0.5 ${
-                    isDarkMode ? 'text-zinc-400' : 'text-zinc-500'
+                    isDarkMode ? 'text-zinc-400' : 'text-slate-500'
                   }`}
                 >
                   {SOCIAL_LINKS.email}

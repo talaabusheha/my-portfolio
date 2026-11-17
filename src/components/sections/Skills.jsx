@@ -20,12 +20,12 @@ export default function Skills() {
         <div className="text-center mb-16">
           <h2
             className={`text-4xl md:text-5xl font-black tracking-tight mb-4 ${
-              isDarkMode ? 'text-white' : 'text-zinc-900'
+              isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
             My Technical Arsenal
           </h2>
-          <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto rounded-full mb-4"></div>
+          <div className="w-12 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto rounded-full mb-4"></div>
           <p
             className={`text-base md:text-lg max-w-2xl mx-auto leading-relaxed ${
               isDarkMode ? 'text-zinc-400' : 'text-zinc-600'

@@ -150,7 +150,7 @@ export default function CustomCursor() {
 
         .custom-arrow-container.pointer-hover .custom-arrow-svg {
           transform: scale(1.12);
-          filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.8));
+          filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.8));
         }
 
         .custom-arrow-container.pointer-clicked .custom-arrow-svg {
@@ -165,8 +165,8 @@ export default function CustomCursor() {
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          border: 1.5px solid rgba(99, 102, 241, 0.45);
-          background-color: rgba(99, 102, 241, 0.06);
+          border: 1.5px solid rgba(14, 165, 233, 0.45);
+          background-color: rgba(14, 165, 233, 0.06);
           pointer-events: none;
           z-index: 999998;
           opacity: 0;
@@ -176,16 +176,16 @@ export default function CustomCursor() {
         .custom-cursor-aura.aura-hover {
           width: 48px;
           height: 48px;
-          border-color: rgba(168, 85, 247, 0.8);
-          background-color: rgba(168, 85, 247, 0.14);
-          box-shadow: 0 0 22px rgba(168, 85, 247, 0.3);
+          border-color: rgba(56, 189, 248, 0.9);
+          background-color: rgba(56, 189, 248, 0.14);
+          box-shadow: 0 0 22px rgba(56, 189, 248, 0.35);
         }
 
         .custom-cursor-aura.aura-clicked {
           width: 24px;
           height: 24px;
-          border-color: rgba(99, 102, 241, 0.9);
-          background-color: rgba(99, 102, 241, 0.25);
+          border-color: rgba(2, 132, 199, 0.9);
+          background-color: rgba(2, 132, 199, 0.25);
         }
       `}</style>
 
@@ -204,7 +204,7 @@ export default function CustomCursor() {
         >
           <path
             d="M3 2L18.5 9.5L11.5 11.5L9.5 18.5L3 2Z"
-            fill="#6366f1"
+            fill="#0284c7"
             stroke="#ffffff"
             strokeWidth="1.8"
             strokeLinejoin="round"

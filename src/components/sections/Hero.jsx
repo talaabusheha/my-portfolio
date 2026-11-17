@@ -42,8 +42,8 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className={`min-h-screen flex items-center justify-center relative overflow-hidden pt-24 pb-16 selection:bg-indigo-500/20 ${
-        isDarkMode ? 'bg-zinc-950' : 'bg-[#fafafa]'
+      className={`min-h-screen flex items-center justify-center relative overflow-hidden pt-24 pb-16 selection:bg-sky-500/20 ${
+        isDarkMode ? 'bg-[#08121e]' : 'bg-[#f0f7fc]'
       }`}
     >
       <style>{`
@@ -147,19 +147,19 @@ export default function Hero() {
           {/* Innermost Ring */}
           <div
             className={`absolute w-[560px] h-[280px] sm:w-[700px] sm:h-[340px] md:w-[820px] md:h-[400px] lg:w-[920px] lg:h-[440px] rounded-[100%] border transition-colors duration-500 ${
-              isDarkMode ? 'border-zinc-800/60' : 'border-slate-200/70'
+              isDarkMode ? 'border-sky-950/60' : 'border-sky-200/70'
             }`}
           />
           {/* Middle Ring */}
           <div
             className={`absolute w-[820px] h-[420px] sm:w-[1020px] sm:h-[500px] md:w-[1200px] md:h-[580px] lg:w-[1340px] lg:h-[640px] rounded-[100%] border transition-colors duration-500 ${
-              isDarkMode ? 'border-zinc-800/40' : 'border-slate-200/50'
+              isDarkMode ? 'border-sky-950/40' : 'border-sky-200/50'
             }`}
           />
           {/* Outermost Ring */}
           <div
             className={`absolute w-[1100px] h-[560px] sm:w-[1360px] sm:h-[680px] md:w-[1580px] md:h-[760px] lg:w-[1760px] lg:h-[840px] rounded-[100%] border transition-colors duration-500 ${
-              isDarkMode ? 'border-zinc-800/25' : 'border-slate-200/35'
+              isDarkMode ? 'border-sky-950/25' : 'border-sky-200/35'
             }`}
           />
         </div>
@@ -168,24 +168,20 @@ export default function Hero() {
         <div
           className={`absolute -left-28 top-1/4 w-[500px] h-[500px] rounded-full blur-[130px] pointer-events-none transition-opacity duration-700 ${
             isDarkMode
-              ? 'bg-gradient-to-tr from-purple-900/25 via-indigo-900/20 to-transparent'
-              : 'bg-gradient-to-tr from-purple-300/30 via-indigo-200/25 to-transparent'
+              ? 'bg-gradient-to-tr from-sky-900/30 via-blue-950/20 to-transparent'
+              : 'bg-gradient-to-tr from-sky-300/35 via-cyan-200/25 to-transparent'
           }`}
         />
         <div
           className={`absolute -right-28 bottom-1/4 w-[500px] h-[500px] rounded-full blur-[130px] pointer-events-none transition-opacity duration-700 ${
             isDarkMode
-              ? 'bg-gradient-to-bl from-indigo-900/25 via-purple-900/20 to-transparent'
-              : 'bg-gradient-to-bl from-indigo-200/30 via-purple-300/25 to-transparent'
+              ? 'bg-gradient-to-bl from-blue-900/25 via-sky-950/20 to-transparent'
+              : 'bg-gradient-to-bl from-cyan-200/30 via-sky-300/25 to-transparent'
           }`}
         />
       </div>
 
       {/* ================= FLOATING TECH ICONS ================= */}
-      {/* 
-        Container for floating icons. 
-        Anchored around the hero with layered parallax + continuous floating animation.
-      */}
       <div className="absolute inset-0 max-w-7xl mx-auto pointer-events-none z-20">
         
         {/* 1. TOP-LEFT: Code </ > */}
@@ -203,8 +199,8 @@ export default function Hero() {
               title="Clean & Scalable Code"
               className={`group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl border transition-all duration-300 cursor-pointer ${
                 isDarkMode
-                  ? 'bg-zinc-900/90 border-zinc-800 text-indigo-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-indigo-500/50 hover:shadow-indigo-500/20'
-                  : 'bg-white/95 border-slate-100 text-indigo-600 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-indigo-200 hover:shadow-indigo-500/15'
+                  ? 'bg-zinc-900/90 border-sky-900/60 text-sky-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-sky-500/50 hover:shadow-sky-500/20'
+                  : 'bg-white/95 border-sky-100 text-[#0284c7] shadow-[0_12px_30px_rgba(2,132,199,0.08)] hover:border-sky-200 hover:shadow-sky-500/15'
               } hover:scale-110 active:scale-95 backdrop-blur-md`}
             >
               <svg
@@ -239,8 +235,8 @@ export default function Hero() {
               title="React 19 & Next-Gen SPAs"
               className={`group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl border transition-all duration-300 cursor-pointer ${
                 isDarkMode
-                  ? 'bg-zinc-900/90 border-zinc-800 text-cyan-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-cyan-500/50 hover:shadow-cyan-500/20'
-                  : 'bg-white/95 border-slate-100 text-[#00d8ff] shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-cyan-200 hover:shadow-cyan-500/15'
+                  ? 'bg-zinc-900/90 border-sky-900/60 text-cyan-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-cyan-500/50 hover:shadow-cyan-500/20'
+                  : 'bg-white/95 border-sky-100 text-[#00d8ff] shadow-[0_12px_30px_rgba(2,132,199,0.08)] hover:border-cyan-200 hover:shadow-cyan-500/15'
               } hover:scale-110 active:scale-95 backdrop-blur-md`}
             >
               <div className="animate-spin-slow flex items-center justify-center">
@@ -276,8 +272,8 @@ export default function Hero() {
               title="Tailwind CSS UI Architecture"
               className={`group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl border transition-all duration-300 cursor-pointer ${
                 isDarkMode
-                  ? 'bg-zinc-900/90 border-zinc-800 text-sky-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-sky-500/50 hover:shadow-sky-500/20'
-                  : 'bg-white/95 border-slate-100 text-[#06b6d4] shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-sky-200 hover:shadow-sky-500/15'
+                  ? 'bg-zinc-900/90 border-sky-900/60 text-sky-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-sky-500/50 hover:shadow-sky-500/20'
+                  : 'bg-white/95 border-sky-100 text-[#0284c7] shadow-[0_12px_30px_rgba(2,132,199,0.08)] hover:border-sky-200 hover:shadow-sky-500/15'
               } hover:scale-110 active:scale-95 backdrop-blur-md`}
             >
               <svg
@@ -306,8 +302,8 @@ export default function Hero() {
               title="RESTful APIs & Modern Web Integration"
               className={`group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl border transition-all duration-300 cursor-pointer ${
                 isDarkMode
-                  ? 'bg-zinc-900/90 border-zinc-800 text-indigo-400 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-indigo-500/50 hover:shadow-indigo-500/20'
-                  : 'bg-white/95 border-slate-100 text-[#4f46e5] shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-indigo-200 hover:shadow-indigo-500/15'
+                  ? 'bg-zinc-900/90 border-sky-900/60 text-sky-300 shadow-[0_12px_32px_rgba(0,0,0,0.5)] hover:border-sky-500/50 hover:shadow-sky-500/20'
+                  : 'bg-white/95 border-sky-100 text-[#0f3b57] shadow-[0_12px_30px_rgba(2,132,199,0.08)] hover:border-sky-200 hover:shadow-sky-500/15'
               } hover:scale-110 active:scale-95 backdrop-blur-md`}
             >
               <span className="font-extrabold text-base md:text-lg tracking-wider transition-transform duration-300 group-hover:scale-110 select-none">
@@ -321,61 +317,115 @@ export default function Hero() {
 
       {/* ================= MAIN HERO CONTENT ================= */}
       <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
-        <div className="space-y-7 md:space-y-8">
+        <div className="space-y-6 md:space-y-7">
           
-          {/* Availability Badge */}
-          <div className="inline-block">
+          {/* Brand Overline & Status Badge */}
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <span className="text-xs sm:text-sm font-bold tracking-[0.24em] uppercase text-sky-700 dark:text-sky-400">
+              Tala Abusheha
+            </span>
+            <span className="text-slate-300 dark:text-sky-900 hidden sm:inline">•</span>
             <div
-              className={`inline-flex items-center gap-2.5 px-4 py-1.5 border rounded-full text-xs sm:text-sm font-medium shadow-[0_2px_10px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-300 ${
+              className={`inline-flex items-center gap-2 px-3.5 py-1 border rounded-full text-xs font-medium shadow-xs backdrop-blur-md transition-all duration-300 ${
                 isDarkMode
-                  ? 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
-                  : 'bg-white/90 border-slate-200/90 text-slate-700'
+                  ? 'bg-zinc-900/80 border-sky-900/60 text-sky-200'
+                  : 'bg-white/90 border-sky-200/90 text-sky-900'
               }`}
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              Available for new opportunities & Front-End roles
+              Available for new Front-End roles
             </div>
           </div>
 
           {/* Main Headline */}
           <h1
-            className={`text-5xl sm:text-6xl md:text-7xl lg:text-[5.4rem] font-black tracking-tight leading-[1.08] transition-colors duration-300 select-none ${
-              isDarkMode ? 'text-white' : 'text-zinc-950'
+            className={`text-4xl sm:text-6xl md:text-7xl lg:text-[5.2rem] font-black tracking-tight leading-[1.08] transition-colors duration-300 select-none ${
+              isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
-            Front-End Developer
+            React Front-End Developer<span className="text-sky-500">.</span>
           </h1>
 
-          {/* Bio Description */}
-          <p
-            className={`text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-normal transition-colors duration-300 ${
-              isDarkMode ? 'text-zinc-400' : 'text-slate-600'
-            }`}
-          >
-            I build fast, resilient, and beautiful web experiences specializing{' '}
-            <span className="font-semibold text-slate-800 dark:text-zinc-200">in</span>
-            <br className="hidden sm:inline" />
-            <span
-              className={`font-bold transition-colors ${
-                isDarkMode ? 'text-zinc-100' : 'text-slate-900'
+          {/* Bio Description / Tagline */}
+          <div className="space-y-3">
+            <p
+              className={`text-lg sm:text-xl md:text-2xl font-bold tracking-tight transition-colors duration-300 ${
+                isDarkMode ? 'text-sky-200' : 'text-[#0f3b57]'
               }`}
             >
-              {' '}React, Vite, Tailwind CSS & Modern Web APIs.
-            </span>
-          </p>
+              Web apps that solve real problems
+            </p>
+            <div className="pt-1">
+              <div
+                className={`inline-flex items-center justify-center gap-2 sm:gap-2.5 px-4 py-1.5 rounded-full border shadow-xs backdrop-blur-md text-xs sm:text-sm font-semibold tracking-wide transition-all ${
+                  isDarkMode
+                    ? 'bg-sky-950/60 border-sky-800/70 text-sky-100'
+                    : 'bg-white/90 border-sky-200 text-[#0f3b57]'
+                }`}
+              >
+                <span>React</span>
+                <span className="text-sky-500 font-bold select-none">/</span>
+                <span>Tailwind CSS</span>
+                <span className="text-sky-500 font-bold select-none">/</span>
+                <span>Supabase</span>
+                <span className="text-sky-500 font-bold select-none">/</span>
+                <span>REST APIs</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Code Window Card matching the brand design */}
+          <div className="pt-2 max-w-sm sm:max-w-md mx-auto">
+            <div
+              className={`rounded-2xl border text-left p-4 sm:p-5 font-mono shadow-xl backdrop-blur-md transition-all duration-300 ${
+                isDarkMode
+                  ? 'bg-[#0f283d]/90 border-sky-900/60 shadow-[0_15px_35px_rgba(2,132,199,0.15)] text-sky-100'
+                  : 'bg-[#0f3854] border-sky-900/40 shadow-[0_15px_35px_rgba(15,56,84,0.18)] text-sky-100'
+              }`}
+            >
+              <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-sky-800/60 text-xs text-sky-300">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#38bdf8]"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#7dd3fc]"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#bae6fd]"></span>
+                </div>
+                <span className="text-sky-300/80 text-[11px]">tala.js</span>
+              </div>
+              <div className="text-xs sm:text-sm leading-relaxed space-y-0.5">
+                <div>
+                  <span className="text-[#38bdf8] font-bold">const</span>{' '}
+                  <span className="text-white font-semibold">tala</span> = {'{'}
+                </div>
+                <div className="pl-4">
+                  <span className="text-sky-200">role:</span>{' '}
+                  <span className="text-[#7dd3fc]">'Front-End Dev'</span>,
+                </div>
+                <div className="pl-4">
+                  <span className="text-sky-200">stack:</span> [
+                  <span className="text-[#7dd3fc]">'React'</span>,{' '}
+                  <span className="text-[#7dd3fc]">'Supabase'</span>],
+                </div>
+                <div className="pl-4">
+                  <span className="text-sky-200">builds:</span>{' '}
+                  <span className="text-[#7dd3fc]">'real solutions'</span>,
+                </div>
+                <div>{'};'}</div>
+              </div>
+            </div>
+          </div>
 
           {/* Call to Actions */}
-          <div className="flex gap-3.5 justify-center flex-wrap pt-3">
+          <div className="flex gap-3.5 justify-center flex-wrap pt-2">
             {/* Direct LinkedIn Link */}
             <a
               href={SOCIAL_LINKS.linkedIn}
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="pointer"
-              className="px-6 py-3 bg-[#3b5bfd] hover:bg-[#314edc] text-white font-semibold text-sm sm:text-base rounded-xl shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5"
+              className="px-6 py-3 bg-[#0284c7] hover:bg-[#0369a1] text-white font-semibold text-sm sm:text-base rounded-xl shadow-md shadow-sky-500/25 hover:shadow-lg hover:shadow-sky-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5"
             >
               <FaLinkedin className="text-lg" />
               <span>LinkedIn Profile</span>
@@ -389,8 +439,8 @@ export default function Hero() {
               data-cursor="pointer"
               className={`px-6 py-3 border font-semibold text-sm sm:text-base rounded-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 shadow-sm ${
                 isDarkMode
-                  ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700 text-zinc-200 hover:text-white'
-                  : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-black shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
+                  ? 'bg-zinc-900/90 hover:bg-zinc-800 border-sky-900/60 hover:border-sky-700 text-zinc-200 hover:text-white'
+                  : 'bg-white hover:bg-sky-50/60 border-slate-200 hover:border-sky-300 text-slate-800 hover:text-[#0f3b57] shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
               }`}
             >
               <FaGithub className="text-lg" />
@@ -403,23 +453,23 @@ export default function Hero() {
               data-cursor="pointer"
               className={`px-6 py-3 border font-semibold text-sm sm:text-base rounded-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 shadow-sm ${
                 isDarkMode
-                  ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700 text-zinc-200 hover:text-white'
-                  : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-black shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
+                  ? 'bg-zinc-900/90 hover:bg-zinc-800 border-sky-900/60 hover:border-sky-700 text-zinc-200 hover:text-white'
+                  : 'bg-white hover:bg-sky-50/60 border-slate-200 hover:border-sky-300 text-slate-800 hover:text-[#0f3b57] shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
               }`}
             >
-              <FileText className="w-4 h-4 text-indigo-500" />
+              <FileText className="w-4 h-4 text-sky-500" />
               <span>Get In Touch</span>
             </a>
           </div>
 
           {/* Bouncing Scroll Indicator */}
-          <div className="pt-12 sm:pt-16">
+          <div className="pt-10 sm:pt-14">
             <a
               href="#about"
               aria-label="Scroll down to About section"
               data-cursor="pointer"
               className={`inline-block transition-colors animate-bounce ${
-                isDarkMode ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-400 hover:text-slate-600'
+                isDarkMode ? 'text-sky-500/70 hover:text-sky-300' : 'text-slate-400 hover:text-sky-600'
               }`}
             >
               <svg

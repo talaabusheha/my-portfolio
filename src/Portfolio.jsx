@@ -13,8 +13,8 @@ export default function Portfolio() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 selection:bg-indigo-500/20 selection:text-indigo-400 ${
-        isDarkMode ? 'bg-zinc-950 text-zinc-100' : 'bg-zinc-50 text-zinc-900'
+      className={`min-h-screen transition-colors duration-300 selection:bg-sky-500/20 selection:text-sky-500 ${
+        isDarkMode ? 'bg-[#09111e] text-slate-100' : 'bg-[#f8fafc] text-slate-900'
       }`}
     >
       <style>{`
@@ -27,16 +27,16 @@ export default function Portfolio() {
         }
 
         ::-webkit-scrollbar-track {
-          background: ${isDarkMode ? '#09090b' : '#f4f4f5'};
+          background: ${isDarkMode ? '#070d17' : '#f1f5f9'};
         }
 
         ::-webkit-scrollbar-thumb {
-          background: ${isDarkMode ? '#27272a' : '#d4d4d8'};
+          background: ${isDarkMode ? '#1e293b' : '#cbd5e1'};
           border-radius: 9999px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-          background: ${isDarkMode ? '#3f3f46' : '#a1a1aa'};
+          background: ${isDarkMode ? '#334155' : '#94a3b8'};
         }
       `}</style>
 

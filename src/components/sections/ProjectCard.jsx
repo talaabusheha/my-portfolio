@@ -35,15 +35,15 @@ export default function ProjectCard({ image, title, badge, description, tags, li
           <h3
             className={`text-xl font-bold transition-colors ${
               isDarkMode
-                ? 'text-zinc-100 group-hover:text-indigo-400'
-                : 'text-zinc-900 group-hover:text-indigo-600'
+                ? 'text-zinc-100 group-hover:text-sky-400'
+                : 'text-[#0f3b57] group-hover:text-sky-600'
             }`}
           >
             {title}
           </h3>
           <p
             className={`text-sm leading-relaxed ${
-              isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+              isDarkMode ? 'text-zinc-400' : 'text-slate-600'
             }`}
           >
             {description}
@@ -56,8 +56,8 @@ export default function ProjectCard({ image, title, badge, description, tags, li
                 key={tag}
                 className={`px-3 py-1 text-xs font-medium rounded-lg border ${
                   isDarkMode
-                    ? 'bg-zinc-800/80 text-zinc-300 border-zinc-700/50'
-                    : 'bg-zinc-100 text-zinc-700 border-zinc-200'
+                    ? 'bg-sky-950/40 text-sky-300 border-sky-900/50'
+                    : 'bg-sky-50 text-sky-800 border-sky-100'
                 }`}
               >
                 {tag}
@@ -76,8 +76,8 @@ export default function ProjectCard({ image, title, badge, description, tags, li
             rel="noopener noreferrer"
             className={`inline-flex items-center gap-2 text-sm font-semibold group/link transition-all ${
               isDarkMode
-                ? 'text-indigo-400 hover:text-indigo-300'
-                : 'text-indigo-600 hover:text-indigo-700'
+                ? 'text-sky-400 hover:text-sky-300'
+                : 'text-sky-600 hover:text-sky-700'
             }`}
           >
             Open Project

@@ -22,7 +22,7 @@ import todolist from '../../public/todolist.webp';
 import PrayerTimesAPI from '../../public/PrayerTimesAPI.jpg';
 import kafeeli from '../../public/kafeeli.jpg';
 import qrAttendance from '../../public/qr_attendance.jpg';
-import logo from '../../public/talalogo.jpeg';
+import logo from '../../public/developer-illustration.png';
 
 export { logo };
 

@@ -18,12 +18,12 @@ export default function Experience() {
         <div className="text-center mb-16">
           <h2
             className={`text-3xl md:text-4xl font-extrabold tracking-tight mb-3 ${
-              isDarkMode ? 'text-white' : 'text-zinc-900'
+              isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
             Experience & Journey
           </h2>
-          <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto rounded-full"></div>
+          <div className="w-12 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
         {/* Experience List */}
@@ -33,8 +33,8 @@ export default function Experience() {
               key={idx}
               className={`p-7 rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
                 isDarkMode
-                  ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700/80 hover:bg-zinc-900/70 shadow-sm'
-                  : 'bg-white border-zinc-200 hover:border-zinc-300 shadow-sm hover:shadow-md'
+                  ? 'bg-zinc-900/40 border-sky-950/60 hover:border-sky-700/60 hover:bg-zinc-900/70 shadow-sm'
+                  : 'bg-white border-slate-200 hover:border-sky-300 shadow-xs hover:shadow-md'
               }`}
             >
               {/* Header Info */}
@@ -42,20 +42,20 @@ export default function Experience() {
                 <div>
                   <h3
                     className={`text-lg font-bold ${
-                      isDarkMode ? 'text-zinc-100' : 'text-zinc-900'
+                      isDarkMode ? 'text-zinc-100' : 'text-[#0f3b57]'
                     }`}
                   >
                     {exp.role}
                   </h3>
-                  <span className="text-sm font-medium text-indigo-400">
+                  <span className="text-sm font-semibold text-sky-600 dark:text-sky-400">
                     {exp.company}
                   </span>
                 </div>
                 <div
                   className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full border w-fit ${
                     isDarkMode
-                      ? 'bg-zinc-800/60 border-zinc-700/60 text-zinc-300'
-                      : 'bg-zinc-100 border-zinc-200 text-zinc-600'
+                      ? 'bg-sky-950/60 border-sky-800/60 text-sky-300'
+                      : 'bg-sky-50 border-sky-200 text-sky-800'
                   }`}
                 >
                   <Calendar className="w-3.5 h-3.5" />
@@ -66,7 +66,7 @@ export default function Experience() {
               {/* Description */}
               <p
                 className={`text-sm leading-relaxed mb-4 ${
-                  isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+                  isDarkMode ? 'text-zinc-400' : 'text-slate-600'
                 }`}
               >
                 {exp.description}
@@ -79,8 +79,8 @@ export default function Experience() {
                     key={tag}
                     className={`text-xs px-2.5 py-1 rounded-md border font-medium ${
                       isDarkMode
-                        ? 'bg-zinc-800/40 border-zinc-800 text-zinc-400'
-                        : 'bg-zinc-50 border-zinc-200 text-zinc-600'
+                        ? 'bg-sky-950/30 border-sky-900/40 text-sky-300'
+                        : 'bg-sky-50/70 border-sky-100 text-sky-900'
                     }`}
                   >
                     {tag}

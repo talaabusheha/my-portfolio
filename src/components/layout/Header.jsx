@@ -21,17 +21,19 @@ export default function Header() {
         {/* Brand Logo & Name */}
         <div className="flex items-center gap-3">
           <div
-            className={`w-10 h-10 rounded-xl overflow-hidden border shadow-md ${
-              isDarkMode ? 'border-zinc-800' : 'border-zinc-200'
+            className={`w-10 h-10 rounded-xl overflow-hidden border shadow-md p-0.5 transition-all ${
+              isDarkMode
+                ? 'border-sky-900/60 bg-[#0f2b3f]'
+                : 'border-sky-200 bg-[#e8f4f9]'
             }`}
           >
-            <img src={logo} alt="Tala" className="w-full h-full object-cover" />
+            <img src={logo} alt="Tala" className="w-full h-full object-contain" />
           </div>
           <div
             className={`text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${
               isDarkMode
-                ? 'from-zinc-100 via-zinc-200 to-zinc-400'
-                : 'from-zinc-900 via-zinc-800 to-zinc-600'
+                ? 'from-sky-100 via-sky-200 to-sky-400'
+                : 'from-[#0f3b57] via-[#133b5c] to-sky-700'
             }`}
           >
             Tala Abusheha
@@ -46,11 +48,11 @@ export default function Header() {
                 key={item}
                 href={`#${item.toLowerCase()}`}
                 className={`transition-colors duration-200 relative group font-medium text-sm ${
-                  isDarkMode ? 'text-zinc-400 hover:text-zinc-100' : 'text-zinc-600 hover:text-zinc-900'
+                  isDarkMode ? 'text-zinc-400 hover:text-white' : 'text-slate-600 hover:text-[#0f3b57]'
                 }`}
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-violet-500 group-hover:w-full transition-all duration-200"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-500 to-cyan-400 group-hover:w-full transition-all duration-200"></span>
               </a>
             ))}
           </nav>
@@ -60,7 +62,7 @@ export default function Header() {
             href={SOCIAL_LINKS.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 border border-indigo-500/20 transition-all"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500/20 border border-sky-500/20 transition-all"
           >
             <FileText className="w-3.5 h-3.5" />
             Resume
@@ -73,7 +75,7 @@ export default function Header() {
             className={`p-2.5 rounded-xl border transition-all duration-200 flex items-center justify-center ${
               isDarkMode
                 ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-yellow-400 hover:border-zinc-700'
-                : 'bg-zinc-100 border-zinc-200 text-zinc-700 hover:text-indigo-600 hover:border-zinc-300'
+                : 'bg-zinc-100 border-zinc-200 text-zinc-700 hover:text-sky-600 hover:border-zinc-300'
             }`}
           >
             {isDarkMode ? (

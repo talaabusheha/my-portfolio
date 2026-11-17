@@ -249,7 +249,7 @@ export default function PortfolioAIAssistant() {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-indigo-400 underline hover:text-indigo-300 font-semibold"
+              className="text-sky-400 underline hover:text-sky-300 font-semibold"
             >
               {title}
             </a>
@@ -275,7 +275,7 @@ export default function PortfolioAIAssistant() {
           <button
             onClick={() => setIsOpen(true)}
             aria-label="Ask Tala's AI Assistant"
-            className="group relative flex items-center gap-2.5 px-4 py-3.5 rounded-full bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 text-white font-semibold shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:shadow-[0_12px_40px_rgba(99,102,241,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 border border-indigo-400/40"
+            className="group relative flex items-center gap-2.5 px-4 py-3.5 rounded-full bg-gradient-to-r from-sky-600 via-sky-500 to-blue-600 text-white font-semibold shadow-[0_8px_30px_rgba(2,132,199,0.4)] hover:shadow-[0_12px_40px_rgba(2,132,199,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 border border-sky-400/40"
           >
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
@@ -303,7 +303,7 @@ export default function PortfolioAIAssistant() {
             }`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/30">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-sky-500/30">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
@@ -311,10 +311,10 @@ export default function PortfolioAIAssistant() {
                   <h3 className="font-bold text-sm">Ask about Tala</h3>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 </div>
-                <p className={`text-[11px] flex items-center gap-1 ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'} font-medium`}>
+                <p className={`text-[11px] flex items-center gap-1 ${isDarkMode ? 'text-sky-400' : 'text-sky-600'} font-medium`}>
                   <span>AI Portfolio Assistant</span>
                   <span>•</span>
-                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded bg-indigo-500/10 text-[10px] font-semibold border border-indigo-500/20">
+                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded bg-sky-500/10 text-[10px] font-semibold border border-sky-500/20">
                     RAG Powered ⚡
                   </span>
                 </p>
@@ -360,8 +360,8 @@ export default function PortfolioAIAssistant() {
                 disabled={isLoading}
                 className={`text-xs px-3 py-1.5 rounded-full border whitespace-nowrap font-medium transition-all duration-200 active:scale-95 flex-shrink-0 ${
                   isDarkMode
-                    ? 'bg-zinc-900/80 hover:bg-indigo-600/20 border-zinc-800 hover:border-indigo-500/50 text-zinc-300 hover:text-indigo-300'
-                    : 'bg-white hover:bg-indigo-50 border-zinc-200 hover:border-indigo-300 text-zinc-700 hover:text-indigo-600 shadow-sm'
+                    ? 'bg-zinc-900/80 hover:bg-sky-600/20 border-zinc-800 hover:border-sky-500/50 text-zinc-300 hover:text-sky-300'
+                    : 'bg-white hover:bg-sky-50 border-zinc-200 hover:border-sky-300 text-zinc-700 hover:text-sky-600 shadow-xs'
                 }`}
               >
                 {q.label}
@@ -377,15 +377,15 @@ export default function PortfolioAIAssistant() {
                 className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'ai' && (
-                  <div className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Bot className="w-4 h-4" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[88%] rounded-2xl px-4 py-3 text-xs leading-relaxed shadow-sm flex flex-col gap-2 ${
+                  className={`max-w-[88%] rounded-2xl px-4 py-3 text-xs leading-relaxed shadow-xs flex flex-col gap-2 ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-br-none'
+                      ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white rounded-br-none'
                       : isDarkMode
                       ? 'bg-zinc-900/90 border border-zinc-800/80 text-zinc-200 rounded-bl-none'
                       : 'bg-zinc-100 border border-zinc-200/80 text-zinc-800 rounded-bl-none'
@@ -395,9 +395,9 @@ export default function PortfolioAIAssistant() {
 
                   {/* RAG Knowledge Citations / Sources */}
                   {msg.sources && msg.sources.length > 0 && !msg.isStreaming && (
-                    <div className="pt-2 border-t border-indigo-500/10 flex flex-col gap-1.5 mt-1">
-                      <div className="flex items-center gap-1 text-[10px] font-semibold text-indigo-400">
-                        <BookOpen className="w-3 h-3 text-indigo-400" />
+                    <div className="pt-2 border-t border-sky-500/15 flex flex-col gap-1.5 mt-1">
+                      <div className="flex items-center gap-1 text-[10px] font-semibold text-sky-500">
+                        <BookOpen className="w-3 h-3 text-sky-500" />
                         <span>المصادر المسترجعة (RAG Knowledge):</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
@@ -417,7 +417,7 @@ export default function PortfolioAIAssistant() {
                             className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-medium transition-all ${
                               isDarkMode
                                 ? 'bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-300 hover:text-white border border-zinc-700/50'
-                                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-indigo-600 border border-slate-200 shadow-xs'
+                                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-sky-600 border border-slate-200 shadow-xs'
                             }`}
                           >
                             <span>{src.label}</span>
@@ -430,15 +430,15 @@ export default function PortfolioAIAssistant() {
 
                   {/* Interactive Action Triggers (Smooth Scroll / Links) */}
                   {msg.actions && msg.actions.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-1 border-t border-indigo-500/10 mt-1">
+                    <div className="flex flex-wrap gap-2 pt-1 border-t border-sky-500/15 mt-1">
                       {msg.actions.map((act, aIdx) => (
                         <button
                           key={aIdx}
                           onClick={() => handleActionClick(act)}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm ${
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-xs ${
                             isDarkMode
-                              ? 'bg-indigo-600/20 hover:bg-indigo-600/35 border border-indigo-500/30 text-indigo-300 hover:text-white'
-                              : 'bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700'
+                              ? 'bg-sky-600/20 hover:bg-sky-600/35 border border-sky-500/30 text-sky-300 hover:text-white'
+                              : 'bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700'
                           }`}
                         >
                           {act.label}
@@ -454,7 +454,7 @@ export default function PortfolioAIAssistant() {
 
                   <div
                     className={`text-[9px] mt-0.5 text-right ${
-                      msg.sender === 'user' ? 'text-indigo-200' : isDarkMode ? 'text-zinc-500' : 'text-zinc-400'
+                      msg.sender === 'user' ? 'text-sky-200' : isDarkMode ? 'text-zinc-500' : 'text-zinc-400'
                     }`}
                   >
                     {msg.time}
@@ -466,7 +466,7 @@ export default function PortfolioAIAssistant() {
             {/* Typing Indicator */}
             {isLoading && (
               <div className="flex gap-2.5 justify-start">
-                <div className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Bot className="w-4 h-4" />
                 </div>
                 <div
@@ -475,9 +475,9 @@ export default function PortfolioAIAssistant() {
                   }`}
                 >
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce [animation-delay:0.4s]"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-bounce [animation-delay:0.4s]"></span>
                   </div>
                 </div>
               </div>
@@ -500,12 +500,12 @@ export default function PortfolioAIAssistant() {
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={isListening ? 'جارٍ الاستماع لصوتك...' : 'Ask about Tala or speak...'}
-                className={`w-full py-2.5 pl-4 pr-20 rounded-xl text-xs border transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50 ${
+                className={`w-full py-2.5 pl-4 pr-20 rounded-xl text-xs border transition-all focus:outline-none focus:ring-2 focus:ring-sky-500/50 ${
                   isListening
-                    ? 'border-indigo-500 ring-2 ring-indigo-500/30'
+                    ? 'border-sky-500 ring-2 ring-sky-500/30'
                     : isDarkMode
-                    ? 'bg-zinc-950 border-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus:border-indigo-500'
-                    : 'bg-white border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 shadow-sm'
+                    ? 'bg-zinc-950 border-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus:border-sky-500'
+                    : 'bg-white border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus:border-sky-500 shadow-xs'
                 }`}
               />
 
@@ -517,8 +517,8 @@ export default function PortfolioAIAssistant() {
                   isListening
                     ? 'bg-rose-500 text-white animate-pulse shadow-md shadow-rose-500/30'
                     : isDarkMode
-                    ? 'text-zinc-400 hover:text-indigo-400 hover:bg-zinc-800'
-                    : 'text-zinc-500 hover:text-indigo-600 hover:bg-zinc-100'
+                    ? 'text-zinc-400 hover:text-sky-400 hover:bg-zinc-800'
+                    : 'text-zinc-500 hover:text-sky-600 hover:bg-zinc-100'
                 }`}
                 title={isListening ? 'إيقاف التسجيل الصوتي' : 'تحدث بالصوت'}
                 aria-label="Voice input"
@@ -530,7 +530,7 @@ export default function PortfolioAIAssistant() {
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!inputMessage.trim() || isLoading}
-                className="absolute right-1.5 p-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 text-white transition-all duration-200 shadow-sm"
+                className="absolute right-1.5 p-2 rounded-lg bg-sky-600 hover:bg-sky-500 disabled:opacity-40 disabled:hover:bg-sky-600 text-white transition-all duration-200 shadow-xs"
                 aria-label="Send message"
               >
                 <Send className="w-3.5 h-3.5" />

@@ -19,12 +19,12 @@ export default function Projects() {
         <div className="text-center mb-16">
           <h2
             className={`text-3xl md:text-4xl font-extrabold tracking-tight mb-3 ${
-              isDarkMode ? 'text-white' : 'text-zinc-900'
+              isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
             Featured Projects
           </h2>
-          <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto rounded-full"></div>
+          <div className="w-12 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto rounded-full"></div>
         </div>
 
         {/* Projects Grid */}

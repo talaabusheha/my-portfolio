@@ -22,13 +22,13 @@ export default function Footer() {
               <img
                 src={logo}
                 alt="Tala"
-                className={`w-8 h-8 rounded-lg border object-cover ${
-                  isDarkMode ? 'border-zinc-800' : 'border-zinc-200'
+                className={`w-9 h-9 rounded-xl border p-0.5 object-contain ${
+                  isDarkMode ? 'border-sky-900/60 bg-[#0f2b3f]' : 'border-sky-200 bg-[#e8f4f9]'
                 }`}
               />
               <div
                 className={`font-bold text-base ${
-                  isDarkMode ? 'text-zinc-200' : 'text-zinc-800'
+                  isDarkMode ? 'text-zinc-200' : 'text-[#0f3b57]'
                 }`}
               >
                 Tala Abusheha
