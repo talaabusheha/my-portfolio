@@ -320,11 +320,21 @@ export default function Hero() {
         <div className="space-y-6 md:space-y-7">
           
           {/* Brand Overline & Status Badge */}
-          <div className="flex items-center justify-center gap-3 flex-wrap">
+          <div className="flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
             <span className="text-xs sm:text-sm font-bold tracking-[0.24em] uppercase text-sky-700 dark:text-sky-400">
               Tala Abusheha
             </span>
             <span className="text-slate-300 dark:text-sky-900 hidden sm:inline">•</span>
+            <div
+              className={`inline-flex items-center gap-1.5 px-3 py-1 border rounded-full text-xs font-semibold backdrop-blur-md transition-all ${
+                isDarkMode
+                  ? 'bg-sky-950/60 border-sky-800/60 text-sky-200'
+                  : 'bg-white/90 border-sky-200 text-sky-900'
+              }`}
+            >
+              <span>🇵🇸</span>
+              <span>Based in Palestine</span>
+            </div>
             <div
               className={`inline-flex items-center gap-2 px-3.5 py-1 border rounded-full text-xs font-medium shadow-xs backdrop-blur-md transition-all duration-300 ${
                 isDarkMode
@@ -346,7 +356,8 @@ export default function Hero() {
               isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
-            <span className="sr-only">Tala Abusheha — </span>React Front-End Developer<span className="text-sky-500">.</span>
+            <span className="sr-only">تالة ابوشيحة (Tala Abusheha) — مطورة React وواجهات أمامية متميزة في فلسطين: </span>
+            React Front-End Developer<span className="text-sky-500">.</span>
           </h1>
 
           {/* Bio Description / Tagline */}

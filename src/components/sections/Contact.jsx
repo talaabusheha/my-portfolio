@@ -41,7 +41,7 @@ export default function Contact() {
               isDarkMode ? 'text-zinc-400' : 'text-slate-600'
             }`}
           >
-            Have a project in mind, an open frontend role, or want to collaborate? Reach out directly via email, WhatsApp, or LinkedIn.
+            Based in Palestine 🇵🇸 and working with teams worldwide. Have an open frontend role, project, or collaboration? Reach out directly via WhatsApp, Email, or LinkedIn.
           </p>
         </div>
 

@@ -56,6 +56,15 @@ export default function About() {
           {/* Right Column - Profile Information & Highlights */}
           <div className="space-y-6">
             <div>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20">
+                  <span>📍</span>
+                  <span>فلسطين — Palestine 🇵🇸</span>
+                </span>
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  متاحة للعمل عن بُعد حول العالم (Remote Worldwide)
+                </span>
+              </div>
               <h3
                 className={`text-2xl md:text-3xl font-bold mb-3 ${
                   isDarkMode ? 'text-zinc-100' : 'text-[#0f3b57]'
@@ -69,6 +78,20 @@ export default function About() {
                 }`}
               >
                 I build reliable, high-performance web applications with modern architectures. Experienced in collaborating with cross-functional teams (UI/UX designers, Frontend & Backend developers) to deliver production-ready software solutions.
+              </p>
+            </div>
+
+            {/* Bilingual SEO Profile Note */}
+            <div
+              className={`p-4 rounded-2xl border text-sm leading-relaxed transition-all ${
+                isDarkMode
+                  ? 'bg-sky-950/25 border-sky-900/40 text-sky-200'
+                  : 'bg-sky-50/70 border-sky-200/80 text-[#0f3854]'
+              }`}
+              dir="rtl"
+            >
+              <p className="font-normal text-xs sm:text-sm">
+                <strong className="font-bold text-sky-600 dark:text-sky-400">تالة ابوشيحة:</strong> مطورة واجهات أمامية متخصصة في <strong>React و Next-gen SPAs</strong> من <strong>فلسطين 🇵🇸</strong>، تعمل على هندسة تطبيقات ويب عصرية وموجهة تقنية في برنامج TAQAT لتدريب وتأهيل الكفاءات البرمجية.
               </p>
             </div>
 

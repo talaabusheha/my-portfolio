@@ -39,7 +39,7 @@ export default function Footer() {
                 isDarkMode ? 'text-zinc-500' : 'text-zinc-500'
               }`}
             >
-              Front-End Developer crafting refined, responsive, and performance-focused web apps.
+              React Front-End Developer based in Palestine 🇵🇸 crafting refined, responsive, and performance-focused web apps.
             </p>
           </div>
 
@@ -130,7 +130,7 @@ export default function Footer() {
               isDarkMode ? 'text-zinc-600' : 'text-zinc-500'
             }`}
           >
-            © 2026 Tala Abu Sheha. Built with React & Tailwind CSS.
+            © 2026 Tala Abusheha (تالة ابوشيحة) — Front-End React Developer from Palestine 🇵🇸.
           </p>
         </div>
       </div>
