@@ -81,7 +81,7 @@ export function normalizeArabicText(str) {
     // Normalize Taa Marbuta (ة -> ه)
     .replace(/ة/g, 'ه')
     // Normalize punctuation
-    .replace(/[.,?!؟؛،:()\[\]{}"'\\/-]/g, ' ')
+    .replace(/[.,?!؟؛،:()[\]{}"'\\/-]/g, ' ')
     // Collapse multiple whitespaces
     .replace(/\s+/g, ' ')
     .trim();
