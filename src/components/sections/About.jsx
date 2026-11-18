@@ -91,7 +91,7 @@ export default function About() {
               dir="rtl"
             >
               <p className="font-normal text-xs sm:text-sm">
-                <strong className="font-bold text-sky-600 dark:text-sky-400">تالة ابوشيحة:</strong> مطورة واجهات أمامية متخصصة في <strong>React و Next-gen SPAs</strong> من <strong>فلسطين 🇵🇸</strong>، تعمل على هندسة تطبيقات ويب عصرية وموجهة تقنية في برنامج TAQAT لتدريب وتأهيل الكفاءات البرمجية.
+                <strong className="font-bold text-sky-600 dark:text-sky-400">تالة ابوشيحة:</strong> مبرمجة ومطورة واجهات أمامية متخصصة في <strong>رياكت (React) و Next-gen SPAs</strong> من <strong>فلسطين 🇵🇸</strong>، تعمل على هندسة وتطوير تطبيقات ويب عصرية وموجهة تقنية في برنامج TAQAT لتأهيل الكفاءات البرمجية.
               </p>
             </div>
 

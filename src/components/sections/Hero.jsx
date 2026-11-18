@@ -356,7 +356,7 @@ export default function Hero() {
               isDarkMode ? 'text-white' : 'text-[#0f3b57]'
             }`}
           >
-            <span className="sr-only">تالة ابوشيحة (Tala Abusheha) — مطورة React وواجهات أمامية متميزة في فلسطين: </span>
+            <span className="sr-only">تالة ابوشيحة (Tala Abusheha) — أفضل مبرمجة ومطورة رياكت (React) وواجهات أمامية في فلسطين: </span>
             React Front-End Developer<span className="text-sky-500">.</span>
           </h1>
 
